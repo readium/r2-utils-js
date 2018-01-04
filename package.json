@@ -5,7 +5,7 @@
   "keywords": [
     "readium",
     "readium2",
-    "shared",
+    "utils",
     "EPUB",
     "TypeScript",
     "JavaScript",
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edrlab/r2-shared-js.git"
+    "url": "git+https://github.com/edrlab/r2-utils-js.git"
   },
   "author": {
     "name": "EDRLab",
@@ -42,9 +42,9 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/edrlab/r2-shared-js/issues"
+    "url": "https://github.com/edrlab/r2-utils-js/issues"
   },
-  "homepage": "https://github.com/edrlab/r2-shared-js",
+  "homepage": "https://github.com/edrlab/r2-utils-js",
   "dependencies": {
     "debug": "^3.1.0",
     "node-stream-zip": "^1.4.2",
@@ -76,8 +76,8 @@
     "tslint-language-service": "^0.9.7",
     "typescript": "^2.6.2"
   },
-  "main": "dist/es6-es2015/src/index.js",
-  "types": "dist/es6-es2015/src/index.d.js",
+  "main": "dist/es6-es2015/src/_utils/perf-cli.js",
+  "types": "dist/es6-es2015/src/_utils/perf-cli.d.js",
   "files": [
     "LICENSE",
     "README.md",
@@ -88,11 +88,9 @@
     "cson2json": "json -I -f package.json -e \"this.scripts=$(node node_modules/cson/bin/cson2json package-scripts.cson)\"",
     "_pregitdist": "npm run build:all",
     "gitdist": "cd ../r2-utils-js-dist/ && git checkout -B master && git pull && (git status || echo status) && ((rimraf \"*\" && echo rimrafOK) || echo rimrafNOK) && cpy ../r2-utils-js/package.json . && cpy ../r2-utils-js/package-lock.json . && cpy ../r2-utils-js/LICENSE . && cpy ../r2-utils-js/README.md . && cpy \"docs/**/*.*\" ../r2-utils-js-dist/ --cwd=../r2-utils-js/ --parents && cpy \"dist/**/*.*\" ../r2-utils-js-dist/ --cwd=../r2-utils-js/ --parents && (git add * || echo add) && (git commit -a -m \"add new dist\" || echo commit) && (git push --set-upstream origin master || echo push) && (git status || echo status) && cd ../r2-utils-js",
-    "start": "cross-env DEBUG=r2:* node \"./dist/es6-es2015/src/_utils/cli.js\" ./misc/epubs/",
+    "start": "cross-env DEBUG=r2:* node \"./dist/es6-es2015/src/_utils/perf-cli.js\" ./file.epub",
     "prepare_": "npm run build:all && npm test",
     "prepublish_": "npm run prepare_",
-    "prenow": "npm run clean && npm run build:es8-es2017",
-    "now": "cpy package-lock.json ./now && cpy \"**/*.*\" ../now/ --cwd=./dist --parents && rimraf \"./now/**/*.d.ts\" && rimraf \"./now/**/*.js.map\" && cpy \"misc/readers/reader-NYPL/**/*.*\" ./now/ --cwd=./ --parents && cpy \"misc/readers/reader-HADRIEN/**/*.*\" ./now/ --cwd=./ --parents && cpy \"misc/epubs/*.epub\" now/misc/epubs/ && cpy package-now.json now/ && cd now/ && mv package-now.json package.json && now && cd ..",
     "typescript:imports": "node tools/typescript_relativize_path_mapping_imports.js",
     "gitrev": "node tools/gitrev.js && cat dist/gitrev.json",
     "afterdist": "npm run typescript:imports && npm run gitrev",
@@ -114,7 +112,7 @@
     "prebuild:es8-es2017": "npm run lint && npm run clean",
     "build:es8-es2017": "npm run transpile:typescript:es8-es2017",
     "postbuild:es8-es2017": "npm run afterdist",
-    "clean": "rimraf ./dist && rimraf ./now && mkdirp ./dist",
+    "clean": "rimraf ./dist && mkdirp ./dist",
     "lint": "npm run lint:all && npm run lint:typescript:full",
     "lint:all": "eclint check \"**/*\" \"!**/*.node\" \"!.git/**/*\" \"!node_modules*/**/*\" \"!dist/**/*\" \"!misc/**/*\" \"!now/**/*\" \"!.vscode/**/*\" \"!.history/**/*\" \"!**/.DS_Store\" \"!**/*.epub\" \"!**/*.cbz\" \"!**/*.jpg\" \"!**/*.jpeg\" \"!**/*.png\" \"!**/*.log\"",
     "lint:typescript": "tslint -c \"./tslint.json\" \"./src/**/*.ts\" \"./test/**/*.ts\"",
@@ -131,8 +129,7 @@
     "transpile:typescript:es8-es2017+afterdist": "npm run transpile:typescript:es8-es2017 && npm run afterdist",
     "transpile:typescript:single": "node tools/typescript_compile_single.js",
     "posttranspile:typescript:single": "npm run afterdist",
-    "test": "cross-env DEBUG=r2:* ava --verbose --fail-fast --serial --color \"./dist/es8-es2017/test/**/test*.js\"",
-    "cli": "node \"./dist/es8-es2017/src/_utils/cli.js\"",
+    "cli": "node \"./dist/es8-es2017/src/_utils/perf-cli.js\"",
     "cli-debug": "cross-env DEBUG=r2:* npm run cli",
     "cli-debug-x": "cross-env DEBUG=* npm run cli"
   },
