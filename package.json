@@ -107,7 +107,7 @@
     "lint:typescript:full": "tslint --project \"./tsconfig.json\" -c \"./tslint.json\" \"./src/**/*.ts\" \"./test/**/*.ts\"",
     "lintfix": "sed -i \"\" \"s/let normalizedPath = path\\\\.normalize(documentPath);/let normalizedPath = path.normalize(documentPath).toLowerCase();/g\" ./node_modules/tslint-language-service/out/src/index.js",
     "pretranspile:typescript": "npm run clean",
-    "transpile:typescript": "tsc -p \"./tsconfig.json\"",
+    "transpile:typescript": "tsc --pretty -p \"./tsconfig.json\"",
     "pretranspile:typescript:all": "npm run clean",
     "transpile:typescript:all": "npm run transpile:typescript:es5 && npm run transpile:typescript:es6-es2015 && npm run transpile:typescript:es7-es2016 && npm run transpile:typescript:es8-es2017",
     "transpile:typescript:es8-es2017+afterdist": "npm run transpile:typescript:es8-es2017 && npm run afterdist",
