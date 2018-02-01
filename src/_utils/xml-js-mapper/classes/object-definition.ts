@@ -5,8 +5,8 @@ export class ObjectDefinition {
     public ctr: () => void;
     public beforeDeserialized: () => void;
     public onDeserialized: () => void;
-    public discriminatorProperty: string;
-    public discriminatorValue: any;
+    public discriminatorProperty: string | undefined = undefined;
+    public discriminatorValue: any = undefined;
     public properties: Map<string, PropertyDefinition>;
     public namespaces: IXmlNamespaces | undefined;
 
@@ -89,6 +89,7 @@ export function getTypedInheritanceChain(
         if (def && def.hasOwnProperty("discriminatorValue")) {
             if (objectInstance
                 && parentDef
+                && parentDef.discriminatorProperty
                 && def.discriminatorValue === (objectInstance as any)[parentDef.discriminatorProperty]) {
                 if (def.hasOwnProperty("discriminatorProperty")) {
                     return getTypedInheritanceChain(objectType2, objectInstance);

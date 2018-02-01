@@ -91,7 +91,7 @@ export function XmlXPathSelector(selector: string, namespaces?: IXmlNamespaces) 
                     namespaceUri,
                 };
                 // console.log(xItem);
-                property.xpathSelectorParsed.push(xItem);
+                (property.xpathSelectorParsed as IXPathSelectorItem[]).push(xItem);
             });
         }
     };

@@ -8,7 +8,7 @@ export class PropertyDefinition {
     public readonly: boolean = false;
     public writeonly: boolean = false;
     public converter: IPropertyConverter | undefined;
-    public xpathSelector: string;
-    public xpathSelectorParsed: IXPathSelectorItem[];
+    public xpathSelector: string | undefined;
+    public xpathSelectorParsed: IXPathSelectorItem[] | undefined;
     public namespaces: IXmlNamespaces | undefined;
 }

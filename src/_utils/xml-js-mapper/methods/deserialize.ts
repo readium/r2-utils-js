@@ -140,7 +140,7 @@ function deserializeRootObject(
 
                     currentNodes = nextCurrentNodes;
 
-                    if (index === p.xpathSelectorParsed.length - 1) {
+                    if (index === (p.xpathSelectorParsed as IXPathSelectorItem[]).length - 1) {
                         currentNodes.forEach((node) => {
                             xpathMatched.push(node);
                         });
@@ -194,7 +194,7 @@ function deserializeRootObject(
 
                     output[key] = deserializeObject(xpathMatched[0], p, options);
                 }
-            } else {
+            } else if (p.xpathSelector) {
                 // console.log("########### USING XPATH!");
                 // console.log(`${p.xpathSelector}`);
 
