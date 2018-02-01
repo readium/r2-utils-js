@@ -61,7 +61,7 @@ export function XmlXPathSelector(selector: string, namespaces?: IXmlNamespaces) 
             const items = property.xpathSelector.split("/");
             for (const item of items) {
                 if (!item.length) {
-                    return;
+                    continue;
                 }
                 // console.log(item);
                 const subitems = item.split(":");
