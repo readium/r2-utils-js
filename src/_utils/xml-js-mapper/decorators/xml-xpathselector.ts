@@ -59,7 +59,7 @@ export function XmlXPathSelector(selector: string, namespaces?: IXmlNamespaces) 
 
             property.xpathSelectorParsed = [];
             const items = property.xpathSelector.split("/");
-            items.forEach((item) => {
+            for (const item of items) {
                 if (!item.length) {
                     return;
                 }
@@ -91,8 +91,8 @@ export function XmlXPathSelector(selector: string, namespaces?: IXmlNamespaces) 
                     namespaceUri,
                 };
                 // console.log(xItem);
-                (property.xpathSelectorParsed as IXPathSelectorItem[]).push(xItem);
-            });
+                property.xpathSelectorParsed.push(xItem);
+            }
         }
     };
 }

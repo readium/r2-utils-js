@@ -4,7 +4,7 @@ import { ObjectDefinition, getTypedInheritanceChain, objectDefinitions } from ".
 import { PropertyDefinition } from "../classes/property-definition";
 import { propertyConverters } from "../converters/converter";
 import { IDynamicObject, IParseOptions } from "../types";
-import { FunctionType, IXPathSelectorItem } from "../types";
+import { FunctionType } from "../types";
 
 export function deserialize(
     objectInstance: Node,
@@ -88,10 +88,13 @@ function deserializeRootObject(
 
                 let currentNodes = [objectInstance];
 
-                p.xpathSelectorParsed.forEach((item: IXPathSelectorItem, index: number) => {
+                let index = -1;
+                for (const item of p.xpathSelectorParsed) {
+                    index++;
+
                     const nextCurrentNodes: Node[] = [];
 
-                    currentNodes.forEach((currentNode) => {
+                    for (const currentNode of currentNodes) {
 
                         if (item.isText) {
                             let textNode = currentNode.firstChild;
@@ -136,16 +139,16 @@ function deserializeRootObject(
                                 }
                             }
                         }
-                    });
+                    }
 
                     currentNodes = nextCurrentNodes;
 
-                    if (index === (p.xpathSelectorParsed as IXPathSelectorItem[]).length - 1) {
+                    if (index === p.xpathSelectorParsed.length - 1) {
                         currentNodes.forEach((node) => {
                             xpathMatched.push(node);
                         });
                     }
-                });
+                }
 
                 // // CHECKING ...
                 // const select = xpath.useNamespaces(p.namespaces || {});
