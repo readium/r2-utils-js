@@ -33,8 +33,6 @@ export abstract class Zip implements IZip {
             console.log(err);
             return Promise.reject(err);
         }
-        // necessary for TypeScript compiler :(
-        streamAndLength = streamAndLength as IStreamAndLength;
 
         const b = begin < 0 ? 0 : begin;
         const e = end < 0 ? (streamAndLength.length - 1) : end;
