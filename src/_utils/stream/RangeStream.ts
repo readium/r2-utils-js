@@ -1,7 +1,7 @@
 import * as debug_ from "debug";
 import { Transform } from "stream";
 
-const debug = debug_("r2:RangeStream");
+const debug = debug_("r2:utils#stream/RangeStream");
 
 export class RangeStream extends Transform {
     private bytesReceived: number;

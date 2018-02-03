@@ -10,7 +10,7 @@ import { bufferToStream, streamToBufferPromise } from "../stream/BufferUtils";
 
 // import { HttpReadableStream } from "./HttpReadableStream";
 
-const debug = debug_("r2:httpStream");
+const debug = debug_("r2:utils#zip/zip2RandomAccessReader_Http");
 
 export interface RandomAccessReader {
     _readStreamForRange(start: number, end: number): void;

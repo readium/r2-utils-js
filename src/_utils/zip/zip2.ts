@@ -8,7 +8,7 @@ import { streamToBufferPromise } from "../stream/BufferUtils";
 import { IStreamAndLength, IZip, Zip } from "./zip";
 import { HttpZipReader } from "./zip2RandomAccessReader_Http";
 
-const debug = debug_("r2:zip2");
+const debug = debug_("r2:utils#zip/zip2");
 
 interface IStringKeyedObject { [key: string]: any; }
 

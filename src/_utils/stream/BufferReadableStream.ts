@@ -1,7 +1,7 @@
 import { Readable } from "stream";
 
 // import * as debug_ from "debug";
-// const debug = debug_("r2:BufferReadableStream");
+// const debug = debug_("r2:utils#stream/BufferReadableStream");
 
 export class BufferReadableStream extends Readable {
     public readonly buffer: Buffer;

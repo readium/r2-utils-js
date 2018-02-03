@@ -4,7 +4,7 @@ import * as debug_ from "debug";
 import * as yauzl from "yauzl";
 import * as yazl from "yazl";
 
-const debug = debug_("r2:zipInjector");
+const debug = debug_("r2:utils#zip/zipInjector");
 
 enum InjectType {
     FILE,

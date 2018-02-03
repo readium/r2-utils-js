@@ -1,6 +1,6 @@
 import { Transform } from "stream";
 
-// const debug = debug_("r2:rangeStream");
+// const debug = debug_("r2:utils#stream/CounterPassThroughStream");
 
 export class CounterPassThroughStream extends Transform {
     public bytesReceived: number;

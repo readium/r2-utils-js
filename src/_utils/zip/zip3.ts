@@ -5,7 +5,7 @@ import * as unzipper from "unzipper";
 import { isHTTP } from "../http/UrlUtils";
 import { IStreamAndLength, IZip, Zip } from "./zip";
 
-const debug = debug_("r2:zip3");
+const debug = debug_("r2:utils#zip/zip3");
 
 interface IStringKeyedObject { [key: string]: any; }
 

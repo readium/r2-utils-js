@@ -14,7 +14,7 @@ import { streamToBufferPromise } from "@utils/stream/BufferUtils";
 /////////////
 /////////////
 
-const debug = debug_("r2:httpStream");
+const debug = debug_("r2:utils#http/HttpReadableStream");
 
 export class HttpReadableStream extends Readable {
 
@@ -69,7 +69,7 @@ export class HttpReadableStream extends Readable {
             this.push(buffer);
         };
 
-        console.log(`HTTP GET ${this.url}: ${this.byteStart}-${this.byteEnd} (${this.byteEnd - this.byteStart})`);
+        debug(`HTTP GET ${this.url}: ${this.byteStart}-${this.byteEnd} (${this.byteEnd - this.byteStart})`);
 
         const lastByteIndex = this.byteEnd - 1;
         const range = `${this.byteStart}-${lastByteIndex}`;

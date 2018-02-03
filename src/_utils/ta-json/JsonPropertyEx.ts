@@ -6,7 +6,7 @@ import * as debug_ from "debug";
 import { JsonProperty } from "ta-json";
 import { getDefinition } from "ta-json/classes/object-definition";
 
-const debug = debug_("r2:JsonPropertyEx");
+const debug = debug_("r2:utils#ta-json/JsonPropertyEx");
 
 function inspect(obj: any) {
     // breakLength: 100  maxArrayLength: undefined
@@ -18,30 +18,30 @@ export function JsonPropertyEx(propertyName?: string): (target: any, key: string
 
     debug("JsonPropertyEx");
 
-    console.log("propertyName");
-    console.log(propertyName);
+    debug("propertyName");
+    debug(propertyName);
 
     return (target: any, key: string): void => {
 
-        console.log("target");
+        debug("target");
         inspect(target);
 
-        console.log("key");
-        console.log(key);
+        debug("key");
+        debug(key);
 
-        console.log("Reflect.getMetadata('design:type', target, key)");
+        debug("Reflect.getMetadata('design:type', target, key)");
         const objectType = Reflect.getMetadata("design:type", target, key);
         inspect(objectType);
-        console.log(objectType.name);
+        debug(objectType.name);
 
-        console.log("target.constructor");
+        debug("target.constructor");
         inspect(target.constructor);
 
-        console.log("getDefinition(target.constructor)");
+        debug("getDefinition(target.constructor)");
         const objDef = getDefinition(target.constructor);
         inspect(objDef);
 
-        console.log("objDef.getProperty(key)");
+        debug("objDef.getProperty(key)");
         const property = objDef.getProperty(key);
         inspect(property);
 

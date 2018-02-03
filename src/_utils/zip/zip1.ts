@@ -5,7 +5,7 @@ import { IStreamAndLength, IZip, Zip } from "./zip";
 
 // import { bufferToStream } from "../stream/BufferUtils";
 
-const debug = debug_("r2:zip1");
+const debug = debug_("r2:utils#zip/zip1");
 
 export class Zip1 extends Zip {
 
