@@ -1,10 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { IZip } from "@utils/zip/zip";
+import { IStreamAndLength, IZip } from "@utils/zip/zip";
+import { ZipExploded } from "@utils/zip/zip-ex";
 import { Zip1 } from "@utils/zip/zip1";
 import { Zip2 } from "@utils/zip/zip2";
 import { Zip3 } from "@utils/zip/zip3";
+
+import { streamToBufferPromise } from "@utils/stream/BufferUtils";
 
 console.log("process.cwd():");
 console.log(process.cwd());
@@ -36,10 +39,46 @@ if (!fs.existsSync(filePath)) {
     }
 }
 
+const stats = fs.lstatSync(filePath);
+if (!stats.isFile() && !stats.isDirectory()) {
+    console.log("FILEPATH MUST BE FILE OR DIRECTORY.");
+    process.exit(1);
+}
+
 const fileName = path.basename(filePath);
 const ext = path.extname(fileName).toLowerCase();
 
-if (/\.epub[3]?$/.test(ext) || ext === ".cbz" || ext === ".zip") {
+if (stats.isDirectory()) {
+    // tslint:disable-next-line:no-floating-promises
+    (async () => {
+        const zipExploded: IZip = await ZipExploded.loadPromise(filePath);
+        const entries = await zipExploded.getEntries();
+        for (const entryName of entries) {
+            console.log("############## " + entryName);
+
+            let zipStream_: IStreamAndLength;
+            try {
+                zipStream_ = await zipExploded.entryStreamPromise(entryName);
+            } catch (err) {
+                console.log(err);
+                return;
+            }
+            const zipStream = zipStream_.stream;
+            let zipData: Buffer;
+            try {
+                zipData = await streamToBufferPromise(zipStream);
+            } catch (err) {
+                console.log(err);
+                return;
+            }
+
+            if (entryName.endsWith(".css")) {
+                const str = zipData.toString("utf8");
+                console.log(str);
+            }
+        }
+    })();
+} else if (/\.epub[3]?$/.test(ext) || ext === ".cbz" || ext === ".zip") {
     // tslint:disable-next-line:no-floating-promises
     (async () => {
         const time3 = process.hrtime();
@@ -57,5 +96,10 @@ if (/\.epub[3]?$/.test(ext) || ext === ".cbz" || ext === ".zip") {
         const diff1 = process.hrtime(time1);
         // const nanos = diff1[0] * 1e9 + diff1[1];
         console.log(`Zip 1 (${zip1.entriesCount()}): ${diff1[0]} seconds + ${diff1[1]} nanoseconds`);
+
+        // const entries = await zip1.getEntries();
+        // for (const entryName of entries) {
+        //     console.log(entryName);
+        // }
     })();
 }

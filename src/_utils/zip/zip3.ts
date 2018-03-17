@@ -83,15 +83,12 @@ export class Zip3 extends Zip {
         return this.hasEntries() && this.entries[entryPath];
     }
 
-    public forEachEntry(callback: (entryName: string) => void) {
+    public async getEntries(): Promise<string[]> {
 
         if (!this.hasEntries()) {
-            return;
+            return Promise.resolve([]);
         }
-
-        Object.keys(this.entries).forEach((entryName) => {
-            callback(entryName);
-        });
+        return Promise.resolve(Object.keys(this.entries));
     }
 
     public async entryStreamPromise(entryPath: string): Promise<IStreamAndLength> {

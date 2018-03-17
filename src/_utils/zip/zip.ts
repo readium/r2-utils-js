@@ -10,7 +10,7 @@ export interface IZip {
     hasEntries: () => boolean;
     entriesCount: () => number;
     hasEntry: (entryPath: string) => boolean;
-    forEachEntry: (callback: (entryName: string) => void) => void;
+    getEntries: () => Promise<string[]>;
     entryStreamPromise: (entryPath: string) => Promise<IStreamAndLength>;
     entryStreamRangePromise: (entryPath: string, begin: number, end: number) => Promise<IStreamAndLength>;
     freeDestroy: () => void;
@@ -20,7 +20,7 @@ export abstract class Zip implements IZip {
     public abstract hasEntries(): boolean;
     public abstract entriesCount(): number;
     public abstract hasEntry(entryPath: string): boolean;
-    public abstract forEachEntry(callback: (entryName: string) => void): void;
+    public abstract getEntries(): Promise<string[]>;
     public abstract entryStreamPromise(entryPath: string): Promise<IStreamAndLength>;
     public abstract freeDestroy(): void;
 
