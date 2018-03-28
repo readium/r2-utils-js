@@ -86,7 +86,7 @@ if (stats.isDirectory()) {
             .discard("node_modules")
             .depth(50)
             .paths(filePath)
-            .ext([".ts"])
+            .ext([".ts", ".tsx"])
             .find();
         for (const file of files) {
             processFile(file);
@@ -95,7 +95,7 @@ if (stats.isDirectory()) {
 
 } else {
     const ext = path.extname(filePath).toLowerCase();
-    const isTS = /\.ts$/.test(ext);
+    const isTS = /\.ts[x]?$/.test(ext);
 
     if (isTS) {
         processFile(filePath);
