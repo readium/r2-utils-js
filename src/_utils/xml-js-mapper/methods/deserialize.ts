@@ -111,11 +111,12 @@ function deserializeRootObject(
                                 xpathMatched.push(textNode);
                             }
                         } else if (item.isAttribute) {
-                            if (currentNode.attributes) {
+                            if ((currentNode as Element).attributes) {
 
                                 const attr = item.namespaceUri ?
-                                    currentNode.attributes.getNamedItemNS(item.namespaceUri, item.localName) :
-                                    currentNode.attributes.getNamedItem(item.localName);
+                                    (currentNode as Element).attributes.getNamedItemNS(
+                                        item.namespaceUri, item.localName) :
+                                    (currentNode as Element).attributes.getNamedItem(item.localName);
 
                                 if (attr) {
                                     xpathMatched.push(attr);
