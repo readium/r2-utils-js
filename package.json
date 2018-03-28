@@ -48,20 +48,20 @@
   "dependencies": {
     "debug": "^3.1.0",
     "filehound": "^1.16.2",
-    "node-stream-zip": "^1.5.0",
+    "node-stream-zip": "^1.6.0",
     "reflect-metadata": "^0.1.12",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "ta-json": "github:danielweck/ta-json#dist",
     "tslib": "^1.9.0",
-    "unzipper": "^0.8.11",
+    "unzipper": "^0.8.12",
     "xpath": "^0.0.27",
     "yauzl": "^2.9.1",
     "yazl": "^2.4.3"
   },
   "devDependencies": {
     "@types/debug": "^0.0.30",
-    "@types/node": "^9.4.7",
+    "@types/node": "^9.6.0",
     "@types/request": "^2.47.0",
     "@types/request-promise-native": "^1.0.14",
     "cpy-cli": "github:sindresorhus/cpy-cli#nodir",
@@ -73,8 +73,8 @@
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2",
     "tslint": "^5.9.1",
-    "tslint-language-service": "^0.9.8",
-    "typescript": "^2.7.2"
+    "tslint-language-service": "^0.9.9",
+    "typescript": "^2.8.1"
   },
   "main": "dist/es6-es2015/src/_utils/perf-cli.js",
   "types": "dist/es6-es2015/src/_utils/perf-cli.d.js",
