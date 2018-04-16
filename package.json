@@ -46,6 +46,7 @@
   },
   "homepage": "https://github.com/edrlab/r2-utils-js",
   "dependencies": {
+    "buffer-image-size": "^0.6.4",
     "debug": "^3.1.0",
     "filehound": "^1.16.4",
     "node-stream-zip": "^1.7.0",
