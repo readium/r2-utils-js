@@ -59,7 +59,7 @@
     "reflect-metadata": "^0.1.12",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
-    "ta-json": "github:danielweck/ta-json#dist",
+    "ta-json": "github:evidentpoint/ta-json#dist",
     "text-encoding": "^0.6.4",
     "tslib": "^1.9.2",
     "unzipper": "^0.8.14",
