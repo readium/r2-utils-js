@@ -6,9 +6,17 @@
 // ==LICENSE-END==
 
 import { BufferReadableStream } from "@utils/stream/BufferReadableStream";
+// import { toWebReadableStream } from "web-streams-node";
 // import { PassThrough } from "stream";
 
-export function bufferToStream(buffer: Buffer): NodeJS.ReadableStream {
+export function bufferToStream(buffer: Buffer): ReadableStream {
+
+    // return toWebReadableStream(buffer);
+    console.log(buffer);
+    return new ReadableStream();
+}
+
+export function bufferToNodeStream(buffer: Buffer): NodeJS.ReadableStream {
 
     return new BufferReadableStream(buffer);
 
@@ -75,32 +83,20 @@ export function bufferToStream(buffer: Buffer): NodeJS.ReadableStream {
     // return stream;
 }
 
-export async function streamToBufferPromise_READABLE(readStream: NodeJS.ReadableStream): Promise<Buffer> {
-
-    return new Promise<Buffer>((resolve, reject) => {
-
-        const buffers: Buffer[] = [];
-
-        readStream.on("error", reject);
-
-        readStream.on("readable", () => {
-            let chunk: Buffer;
-            do {
-                chunk = readStream.read() as Buffer;
-                if (chunk) {
-                    buffers.push(chunk);
-                }
-            }
-            while (chunk);
-        });
-
-        readStream.on("end", () => {
-            resolve(Buffer.concat(buffers));
-        });
-    });
+async function pump(reader: ReadableStreamReader, buffers: Buffer[]): Promise<Buffer> {
+    const next = await reader.read();
+    if (next.done) {
+        return Buffer.concat(buffers);
+    }
+    buffers.push(Buffer.from(next.value));
+    return pump(reader, buffers);
 }
 
-export async function streamToBufferPromise(readStream: NodeJS.ReadableStream): Promise<Buffer> {
+export async function streamToBufferPromise(readableStream: ReadableStream): Promise<Buffer> {
+    return pump(readableStream.getReader(), []);
+}
+
+export async function nodeStreamToBufferPromise(readStream: NodeJS.ReadableStream): Promise<Buffer> {
 
     return new Promise<Buffer>((resolve, reject) => {
 

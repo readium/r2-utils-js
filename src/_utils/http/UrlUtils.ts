@@ -10,7 +10,12 @@ import * as querystring from "querystring";
 
 export function isHTTP(urlOrPath: string): boolean {
     // TODO: smarter regexp
-    return urlOrPath.indexOf("http") === 0;
+    return !!urlOrPath.match(/^http:\/\/.*/);
+}
+
+export function isDirectory(urlOrPath: string): boolean {
+    // TODO: smarter regexp
+    return !!urlOrPath.match(new RegExp(`.*${path.sep}\$`));
 }
 
 export function encodeURIComponent_RFC3986(str: string): string {

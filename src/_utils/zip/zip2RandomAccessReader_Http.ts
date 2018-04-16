@@ -13,7 +13,7 @@ import * as request from "request";
 import * as requestPromise from "request-promise-native";
 import * as yauzl from "yauzl";
 
-import { bufferToStream, streamToBufferPromise } from "../stream/BufferUtils";
+import { bufferToNodeStream, nodeStreamToBufferPromise } from "../stream/BufferUtils";
 
 // import { HttpReadableStream } from "./HttpReadableStream";
 
@@ -52,7 +52,7 @@ export class HttpZipReader implements RandomAccessReader {
             const begin = start - this.firstBufferStart;
             const stop = end - this.firstBufferStart;
 
-            return bufferToStream(this.firstBuffer.slice(begin, stop));
+            return bufferToNodeStream(this.firstBuffer.slice(begin, stop));
         }
 
         const stream = new PassThrough();
@@ -88,7 +88,7 @@ export class HttpZipReader implements RandomAccessReader {
             } else {
                 let buffer: Buffer;
                 try {
-                    buffer = await streamToBufferPromise(res);
+                    buffer = await nodeStreamToBufferPromise(res);
                 } catch (err) {
                     debug(err);
                     stream.end();

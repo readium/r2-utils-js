@@ -8,10 +8,11 @@
 import * as debug_ from "debug";
 import * as request from "request";
 import * as requestPromise from "request-promise-native";
+import { toWebReadableStream } from "web-streams-node";
 import * as yauzl from "yauzl";
 
 import { isHTTP } from "../http/UrlUtils";
-import { streamToBufferPromise } from "../stream/BufferUtils";
+import { nodeStreamToBufferPromise } from "../stream/BufferUtils";
 import { IStreamAndLength, IZip, Zip } from "./zip";
 import { HttpZipReader } from "./zip2RandomAccessReader_Http";
 
@@ -129,7 +130,7 @@ export class Zip2 extends Zip {
                         // debug(res.headers);
                         let buffer: Buffer;
                         try {
-                            buffer = await streamToBufferPromise(ress);
+                            buffer = await nodeStreamToBufferPromise(ress);
                         } catch (err) {
                             debug(err);
                             reject(err);
@@ -299,7 +300,7 @@ export class Zip2 extends Zip {
         return this.entriesCount() > 0;
     }
 
-    public hasEntry(entryPath: string): boolean {
+    public async hasEntry(entryPath: string): Promise<boolean> {
         return this.hasEntries() && this.entries[entryPath];
     }
 
@@ -315,7 +316,7 @@ export class Zip2 extends Zip {
 
         // debug(`entryStreamPromise: ${entryPath}`);
 
-        if (!this.hasEntries() || !this.hasEntry(entryPath)) {
+        if (!this.hasEntries() || !await this.hasEntry(entryPath)) {
             return Promise.reject("no such path in zip: " + entryPath);
         }
 
@@ -335,7 +336,7 @@ export class Zip2 extends Zip {
                     reset: async () => {
                         return this.entryStreamPromise(entryPath);
                     },
-                    stream,
+                    stream: toWebReadableStream(stream),
                 };
                 resolve(streamAndLength);
             });

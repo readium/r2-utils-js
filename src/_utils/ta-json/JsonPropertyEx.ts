@@ -9,9 +9,9 @@ import "reflect-metadata";
 
 import * as util from "util";
 
+import { getDefinition } from "@ta-json/classes/object-definition";
 import * as debug_ from "debug";
 import { JsonProperty } from "ta-json";
-import { getDefinition } from "ta-json/classes/object-definition";
 
 const debug = debug_("r2:utils#ta-json/JsonPropertyEx");
 

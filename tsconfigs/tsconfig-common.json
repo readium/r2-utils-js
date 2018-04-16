@@ -23,6 +23,9 @@
       ],
       "@utils/*": [
         "src/_utils/*"
+      ],
+      "@ta-json/*": [
+        "node_modules/ta-json/dist/es6/*"
       ]
     },
     "noImplicitAny": true,

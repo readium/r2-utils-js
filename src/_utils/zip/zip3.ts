@@ -9,6 +9,7 @@ import * as debug_ from "debug";
 import * as request from "request";
 import * as unzipper from "unzipper";
 
+import { toWebReadableStream } from "web-streams-node";
 import { isHTTP } from "../http/UrlUtils";
 import { IStreamAndLength, IZip, Zip } from "./zip";
 
@@ -86,7 +87,7 @@ export class Zip3 extends Zip {
         return this.entriesCount() > 0;
     }
 
-    public hasEntry(entryPath: string): boolean {
+    public async hasEntry(entryPath: string): Promise<boolean> {
         return this.hasEntries() && this.entries[entryPath];
     }
 
@@ -117,7 +118,7 @@ export class Zip3 extends Zip {
                 reset: async () => {
                     return this.entryStreamPromise(entryPath);
                 },
-                stream,
+                stream: toWebReadableStream(stream),
             };
             resolve(streamAndLength);
         });

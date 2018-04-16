@@ -8,13 +8,13 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { IStreamAndLength, IZip } from "@utils/zip/zip";
-import { ZipExploded } from "@utils/zip/zip-ex";
-import { Zip1 } from "@utils/zip/zip1";
-import { Zip2 } from "@utils/zip/zip2";
-import { Zip3 } from "@utils/zip/zip3";
+// import { IStreamAndLength, IZip } from "@utils/zip/zip";
+// import { ZipExploded } from "@utils/zip/zip-ex";
+// import { Zip1 } from "@utils/zip/zip1";
+// import { Zip2 } from "@utils/zip/zip2";
+// import { Zip3 } from "@utils/zip/zip3";
 
-import { streamToBufferPromise } from "@utils/stream/BufferUtils";
+// import { streamToBufferPromise } from "@utils/stream/BufferUtils";
 
 console.log("process.cwd():");
 console.log(process.cwd());
@@ -57,56 +57,56 @@ const ext = path.extname(fileName).toLowerCase();
 
 if (stats.isDirectory()) {
     // tslint:disable-next-line:no-floating-promises
-    (async () => {
-        const zipExploded: IZip = await ZipExploded.loadPromise(filePath);
-        const entries = await zipExploded.getEntries();
-        for (const entryName of entries) {
-            console.log("############## " + entryName);
-
-            let zipStream_: IStreamAndLength;
-            try {
-                zipStream_ = await zipExploded.entryStreamPromise(entryName);
-            } catch (err) {
-                console.log(err);
-                return;
-            }
-            const zipStream = zipStream_.stream;
-            let zipData: Buffer;
-            try {
-                zipData = await streamToBufferPromise(zipStream);
-            } catch (err) {
-                console.log(err);
-                return;
-            }
-
-            if (entryName.endsWith(".css")) {
-                const str = zipData.toString("utf8");
-                console.log(str);
-            }
-        }
-    })();
+    // (async () => {
+    //     const zipExploded: IZip = await ZipExploded.loadPromise(filePath);
+    //     const entries = await zipExploded.getEntries();
+    //     for (const entryName of entries) {
+    //         console.log("############## " + entryName);
+    //
+    //         let zipStream_: IStreamAndLength;
+    //         try {
+    //             zipStream_ = await zipExploded.entryStreamPromise(entryName);
+    //         } catch (err) {
+    //             console.log(err);
+    //             return;
+    //         }
+    //         const zipStream = zipStream_.stream;
+    //         let zipData: Buffer;
+    //         try {
+    //             zipData = await streamToBufferPromise(zipStream);
+    //         } catch (err) {
+    //             console.log(err);
+    //             return;
+    //         }
+    //
+    //         if (entryName.endsWith(".css")) {
+    //             const str = zipData.toString("utf8");
+    //             console.log(str);
+    //         }
+    //     }
+    // })();
 } else if (/\.epub[3]?$/.test(ext) || ext === ".cbz" || ext === ".zip") {
     // tslint:disable-next-line:no-floating-promises
-    (async () => {
-        const time3 = process.hrtime();
-        const zip3: IZip = await Zip3.loadPromise(filePath);
-        const diff3 = process.hrtime(time3);
-        console.log(`Zip 3 (${zip3.entriesCount()}): ${diff3[0]} seconds + ${diff3[1]} nanoseconds`);
-
-        const time2 = process.hrtime();
-        const zip2: IZip = await Zip2.loadPromise(filePath);
-        const diff2 = process.hrtime(time2);
-        console.log(`Zip 2 (${zip2.entriesCount()}): ${diff2[0]} seconds + ${diff2[1]} nanoseconds`);
-
-        const time1 = process.hrtime();
-        const zip1: IZip = await Zip1.loadPromise(filePath);
-        const diff1 = process.hrtime(time1);
-        // const nanos = diff1[0] * 1e9 + diff1[1];
-        console.log(`Zip 1 (${zip1.entriesCount()}): ${diff1[0]} seconds + ${diff1[1]} nanoseconds`);
-
-        // const entries = await zip1.getEntries();
-        // for (const entryName of entries) {
-        //     console.log(entryName);
-        // }
-    })();
+    // (async () => {
+    //     const time3 = process.hrtime();
+    //     const zip3: IZip = await Zip3.loadPromise(filePath);
+    //     const diff3 = process.hrtime(time3);
+    //     console.log(`Zip 3 (${zip3.entriesCount()}): ${diff3[0]} seconds + ${diff3[1]} nanoseconds`);
+    //
+    //     const time2 = process.hrtime();
+    //     const zip2: IZip = await Zip2.loadPromise(filePath);
+    //     const diff2 = process.hrtime(time2);
+    //     console.log(`Zip 2 (${zip2.entriesCount()}): ${diff2[0]} seconds + ${diff2[1]} nanoseconds`);
+    //
+    //     const time1 = process.hrtime();
+    //     const zip1: IZip = await Zip1.loadPromise(filePath);
+    //     const diff1 = process.hrtime(time1);
+    //     // const nanos = diff1[0] * 1e9 + diff1[1];
+    //     console.log(`Zip 1 (${zip1.entriesCount()}): ${diff1[0]} seconds + ${diff1[1]} nanoseconds`);
+    //
+    //     // const entries = await zip1.getEntries();
+    //     // for (const entryName of entries) {
+    //     //     console.log(entryName);
+    //     // }
+    // })();
 }

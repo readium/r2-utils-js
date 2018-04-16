@@ -7,6 +7,7 @@
 
 import * as debug_ from "debug";
 import * as StreamZip from "node-stream-zip";
+import { toWebReadableStream } from "web-streams-node";
 
 import { IStreamAndLength, IZip, Zip } from "./zip";
 
@@ -74,7 +75,7 @@ export class Zip1 extends Zip {
         return this.entriesCount() > 0;
     }
 
-    public hasEntry(entryPath: string): boolean {
+    public async hasEntry(entryPath: string): Promise<boolean> {
         return this.hasEntries()
             && this.zip.entries()[entryPath];
     }
@@ -91,7 +92,7 @@ export class Zip1 extends Zip {
 
         // debug(`entryStreamPromise: ${entryPath}`);
 
-        if (!this.hasEntries() || !this.hasEntry(entryPath)) {
+        if (!this.hasEntries() || !await this.hasEntry(entryPath)) {
             return Promise.reject("no such path in zip: " + entryPath);
         }
 
@@ -119,7 +120,7 @@ export class Zip1 extends Zip {
                     reset: async () => {
                         return this.entryStreamPromise(entryPath);
                     },
-                    stream,
+                    stream: toWebReadableStream(stream),
                 };
                 resolve(streamAndLength);
             });

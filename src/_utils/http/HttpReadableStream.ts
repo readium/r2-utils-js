@@ -12,6 +12,7 @@ import * as request from "request";
 import * as requestPromise from "request-promise-native";
 
 import { streamToBufferPromise } from "@utils/stream/BufferUtils";
+import { toWebReadableStream } from "web-streams-node";
 
 /////////////
 /////////////
@@ -65,7 +66,7 @@ export class HttpReadableStream extends Readable {
 
             let buffer: Buffer;
             try {
-                buffer = await streamToBufferPromise(res);
+                buffer = await streamToBufferPromise(toWebReadableStream(res));
             } catch (err) {
                 failure(err);
                 return;
