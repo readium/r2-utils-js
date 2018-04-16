@@ -7,6 +7,8 @@
 
 // declare module "*";
 
+declare module "cross-fetch";
+declare module "fetch-readablestream";
 declare module "filehound";
 declare module "node-stream-zip";
 declare module "unzipper";
