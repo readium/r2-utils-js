@@ -72,7 +72,7 @@
   "devDependencies": {
     "@types/debug": "^0.0.30",
     "@types/glob": "^5.0.35",
-    "@types/node": "8.*.*",
+    "@types/node": "^10.3.4",
     "@types/request": "^2.47.1",
     "@types/request-promise-native": "^1.0.15",
     "cpy-cli": "^2.0.0",
@@ -85,7 +85,7 @@
     "rimraf": "^2.6.2",
     "tslint": "^5.10.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "2.9.1"
+    "typescript": "^2.9.2"
   },
   "main": "dist/es6-es2015/src/_utils/perf-cli.js",
   "types": "dist/es6-es2015/src/_utils/perf-cli.d.js",
