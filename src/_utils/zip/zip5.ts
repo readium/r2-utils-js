@@ -43,15 +43,12 @@ export class Zip5 extends Zip {
         return this.getEntry(entryPath).exists();
     }
 
-    public forEachEntry(callback: (entryName: string) => void) {
+    public async getEntries(): Promise<string[]> {
 
         if (!this.hasEntries()) {
-            return;
+            return Promise.resolve([]);
         }
-
-        Object.keys(this.entries).forEach((entryName) => {
-            callback(entryName);
-        });
+        return Promise.resolve(Object.keys(this.entries));
     }
 
     public async entryStreamPromise(entryPath: string): Promise<IStreamAndLength> {

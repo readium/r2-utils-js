@@ -10,6 +10,8 @@ import * as filehound from "filehound";
 import * as fs from "fs";
 import * as path from "path";
 
+import { toWebReadableStream } from "web-streams-node";
+
 import { IStreamAndLength, IZip, Zip } from "./zip";
 
 // import { bufferToStream } from "../stream/BufferUtils";
@@ -38,7 +40,7 @@ export class ZipExploded extends Zip {
         return true; // TODO: hacky
     }
 
-    public hasEntry(entryPath: string): boolean {
+    public async hasEntry(entryPath: string): Promise<boolean> {
         return this.hasEntries()
             && fs.existsSync(path.join(this.dirPath, entryPath));
     }
@@ -89,7 +91,7 @@ export class ZipExploded extends Zip {
             reset: async () => {
                 return this.entryStreamPromise(entryPath);
             },
-            stream: fs.createReadStream(fullPath, { autoClose: false }),
+            stream: toWebReadableStream(fs.createReadStream(fullPath, { autoClose: false })),
         };
 
         return Promise.resolve(streamAndLength);
