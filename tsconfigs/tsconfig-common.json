@@ -74,7 +74,8 @@
     "preserveConstEnums": false,
     "removeComments": true,
     "skipLibCheck": false,
-    "locale": "en-US"
+    "locale": "en-US",
+    "types": []
   },
   "exclude": [
     "node_modules"
