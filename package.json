@@ -50,7 +50,7 @@
     "filehound": "^1.16.4",
     "node-stream-zip": "^1.7.0",
     "reflect-metadata": "^0.1.12",
-    "request": "^2.87.0",
+    "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "ta-json": "github:danielweck/ta-json#dist",
     "tslib": "^1.9.3",
