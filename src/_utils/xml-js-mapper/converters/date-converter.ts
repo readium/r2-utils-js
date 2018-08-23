@@ -8,12 +8,13 @@
 import { IPropertyConverter } from "./converter";
 
 export class DateConverter implements IPropertyConverter {
-    public serialize(property: Date): string {
-        return property.toISOString();
+    public serialize(property: Date | undefined): string {
+        return property ? property.toISOString() : "Invalid Date";
     }
 
-    public deserialize(value: string): Date {
-        return new Date(value);
+    public deserialize(value: string): Date | undefined {
+        const date = new Date(value);
+        return isNaN(date.getTime()) ? undefined : date;
     }
 
     public collapseArrayWithSingleItem(): boolean {

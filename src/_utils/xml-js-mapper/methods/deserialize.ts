@@ -104,13 +104,89 @@ function deserializeRootObject(
                     for (const currentNode of currentNodes) {
 
                         if (item.isText) {
-                            let textNode = currentNode.firstChild;
+                            let textNode = currentNode.firstChild || currentNode; // fallback
                             if (currentNode.childNodes && currentNode.childNodes.length) {
+                                const allTextNodes: Node[] = [];
+                                let atLeastOneElementChild = false;
                                 for (let i = 0; i < currentNode.childNodes.length; i++) {
                                     const childNode = currentNode.childNodes.item(i);
                                     if (childNode.nodeType === 3) { // TEXT_NODE
-                                        textNode = childNode;
+                                        allTextNodes.push(childNode);
+                                        // textNode = childNode;
+                                        // break;
+                                    } else if (childNode.nodeType === 1) { // ELEMENT_NODE
+                                        atLeastOneElementChild = true;
                                         break;
+                                    }
+                                }
+                                if (atLeastOneElementChild) {
+                                    // console.log("###################");
+                                    // console.log("###################");
+                                    // console.log("###################");
+
+                                    let toStringed: string | undefined;
+                                    if ((currentNode as Element).innerHTML) {
+                                        console.log("innerHTML");
+                                        toStringed = (currentNode as Element).innerHTML;
+                                    } else if (currentNode.childNodes.toString) {
+                                        // console.log("childNodes.toString");
+                                        toStringed = currentNode.childNodes.toString();
+                                    } else {
+                                        console.log("childNodes.items.toString?");
+                                        for (let i = 0; i < currentNode.childNodes.length; i++) {
+                                            const childNode = currentNode.childNodes.item(i);
+                                            if (childNode.toString) {
+                                                if (!toStringed) {
+                                                    toStringed = "";
+                                                }
+                                                toStringed += childNode.toString();
+                                            }
+                                        }
+                                    }
+
+                                    if (toStringed) {
+                                        console.log(toStringed);
+
+                                        // textNode = document.createTextNode(toStringed);
+                                        // console.log(textNode.nodeType);
+                                        // console.log((textNode as Text).data);
+
+                                        const obj = { data: toStringed, nodeType: 3 };
+                                        // @ts-ignore:next-line
+                                        textNode = obj;
+
+                                        // textNode = new Node();
+                                        // (textNode as any).nodeType = 3;
+                                        // (textNode as Text).data = toStringed;
+                                    }
+                                } else if (allTextNodes.length) {
+                                    if (allTextNodes.length === 1) {
+                                        textNode = allTextNodes[0];
+                                    } else {
+                                        console.log("###################");
+                                        console.log("###################");
+                                        console.log("###################");
+
+                                        console.log("XML text nodes: [" + allTextNodes.length + "]");
+
+                                        let fullTxt = "";
+                                        allTextNodes.forEach((allTextNode) => {
+                                            fullTxt += (allTextNode as Text).data;
+                                        });
+
+                                        console.log(fullTxt);
+
+                                        // textNode = document.createTextNode(fullTxt);
+                                        // console.log(textNode.nodeType);
+                                        // console.log((textNode as Text).data);
+
+                                        const obj = { data: fullTxt, nodeType: 3 };
+                                        // @ts-ignore:next-line
+                                        textNode = obj;
+
+                                        // textNode = new Node();
+                                        // (textNode as any).nodeType = 3;
+                                        // (textNode as Text).data = fullTxt;
                                     }
                                 }
                             }
