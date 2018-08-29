@@ -54,7 +54,7 @@
     "request-promise-native": "^1.0.5",
     "ta-json": "github:danielweck/ta-json#dist",
     "tslib": "^1.9.3",
-    "unzipper": "^0.9.2",
+    "unzipper": "^0.9.3",
     "xpath": "^0.0.27",
     "yauzl": "^2.10.0",
     "yazl": "^2.4.3"
@@ -74,7 +74,7 @@
     "rimraf": "^2.6.2",
     "tslint": "^5.11.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.3"
   },
   "main": "dist/es6-es2015/src/_utils/perf-cli.js",
   "types": "dist/es6-es2015/src/_utils/perf-cli.d.js",
