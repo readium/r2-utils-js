@@ -5,3 +5,7 @@ Initial NPM publish
 # 1.0.0-alpha.2
 
 * `@types/node` NPM update
+
+# 1.0.0-alpha.3
+
+* `package-lock.json` had incorrect version
