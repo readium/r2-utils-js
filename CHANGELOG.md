@@ -1,11 +1,44 @@
-# 1.0.0-alpha.1
+# 1.0.0-alpha.3
 
-Initial NPM publish
+Changes:
+* correct version in `package-lock.json`
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.0-alpha.3/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.0-alpha.3/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.0-alpha.3
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.2...v1.0.0-alpha.3
 
 # 1.0.0-alpha.2
 
-* `@types/node` NPM update
+Changes (NPM updates):
+* `@types/node`
 
-# 1.0.0-alpha.3
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.0-alpha.2/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.0-alpha.2/dist/gitrev.json
 
-* `package-lock.json` had incorrect version
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.0-alpha.2
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.1...v1.0.0-alpha.2
+
+# 1.0.0-alpha.1
+
+Changes:
+* initial NPM publish
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.0-alpha.1/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.0-alpha.1/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.0-alpha.1
+
+Git diff:
+* initial NPM publish
