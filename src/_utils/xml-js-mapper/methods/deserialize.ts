@@ -145,7 +145,7 @@ function deserializeRootObject(
                                     }
 
                                     if (toStringed) {
-                                        console.log(toStringed);
+                                        // console.log(toStringed);
 
                                         // textNode = document.createTextNode(toStringed);
                                         // console.log(textNode.nodeType);

@@ -1,5 +1,8 @@
 # Next
 
+Changes:
+* removed rogue `console.log()`
+
 Git diff:
 * https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.3...develop
 
