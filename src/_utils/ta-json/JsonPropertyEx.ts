@@ -10,10 +10,10 @@ import "reflect-metadata";
 import * as util from "util";
 
 import * as debug_ from "debug";
-import { JsonProperty } from "ta-json";
-import { getDefinition } from "ta-json/classes/object-definition";
+import { JsonProperty } from "ta-json-x";
+import { getDefinition } from "ta-json-x/dist/cjs/classes/object-definition";
 
-const debug = debug_("r2:utils#ta-json/JsonPropertyEx");
+const debug = debug_("r2:utils#ta-json-x/JsonPropertyEx");
 
 function inspect(obj: any) {
     // breakLength: 100  maxArrayLength: undefined

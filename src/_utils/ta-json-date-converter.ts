@@ -5,7 +5,7 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
-import { IPropertyConverter, JsonValue } from "ta-json";
+import { IPropertyConverter, JsonValue } from "ta-json-x";
 
 export class JsonDateConverter implements IPropertyConverter {
     public serialize(property: Date | undefined): JsonValue {
