@@ -4,7 +4,25 @@ Changes:
 * TODO
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.4...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.5...develop
+
+# 1.0.0-alpha.5
+
+Changes:
+* Fixed TypeScript regression bug (3.0.3 -> 3.1.1) related to XML / HTML DOM typings
+* Removed TypeScript linter warning message (checks for no unused variables)
+* NPM updates related to the Node TypeScript typings
+* Dependency "ta-json" updates, and NPM integration GitHub semver reference
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.0-alpha.5/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.0-alpha.5/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.0-alpha.5
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.4...v1.0.0-alpha.5
 
 # 1.0.0-alpha.4
 

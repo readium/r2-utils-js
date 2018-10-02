@@ -17,7 +17,7 @@ export class XML {
         options?: IParseOptions): T {
 
         if (objectInstance.nodeType === 9) { // DOCUMENT_NODE
-            objectInstance = (objectInstance as Document).documentElement;
+            objectInstance = (objectInstance as Document).documentElement as Element;
         }
         return deserialize(objectInstance as Element, objectType, options);
     }

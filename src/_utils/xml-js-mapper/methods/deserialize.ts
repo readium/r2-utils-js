@@ -212,7 +212,7 @@ function deserializeRootObject(
                                     if (childNode.nodeType !== 1) { // ELEMENT_NODE
                                         continue;
                                     }
-                                    if (childNode.localName !== item.localName) {
+                                    if ((childNode as Element).localName !== item.localName) {
                                         continue;
                                     }
                                     if (item.namespaceUri && item.namespaceUri !== childNode.namespaceURI) {
