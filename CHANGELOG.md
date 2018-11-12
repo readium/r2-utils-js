@@ -6,6 +6,23 @@ Changes:
 Git diff:
 * https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.6...develop
 
+# 1.0.0-alpha.7
+
+> Build environment: NodeJS `8.12.0`, NPM `6.4.1`
+
+Changes:
+* NPM updates (minor)
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.0-alpha.7/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.0-alpha.7/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.0-alpha.7
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.6...v1.0.0-alpha.7
+
 # 1.0.0-alpha.6
 
 Changes:
