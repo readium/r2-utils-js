@@ -4,7 +4,7 @@ Changes:
 * TODO
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.6...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.7...develop
 
 # 1.0.0-alpha.7
 
@@ -12,6 +12,7 @@ Git diff:
 
 Changes:
 * NPM updates (minor)
+* Git revision JSON info now includes NodeJS and NPM version (build environment)
 
 Git revision info:
 * https://unpkg.com/r2-utils-js@1.0.0-alpha.7/dist/gitrev.json
