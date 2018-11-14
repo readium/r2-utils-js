@@ -1,8 +1,5 @@
 # Next
 
-Changes:
-* TODO
-
 Git diff:
 * https://github.com/readium/r2-utils-js/compare/v1.0.0-alpha.7...develop
 
