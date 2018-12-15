@@ -106,7 +106,11 @@ export class Zip2 extends Zip {
                 debug(`Content-Length: ${httpZipByteLength}`);
 
                 if (!res.headers["accept-ranges"]
-                    || res.headers["accept-ranges"] !== "bytes") {
+                    // Note: some servers have several headers with the same value!
+                    // (erm, https://raw.githubusercontent.com)
+                    // (comma-separated values, so we can't match "bytes" exactly)
+                    || res.headers["accept-ranges"].indexOf("bytes") < 0) {
+
                     if (httpZipByteLength > (2 * 1024 * 1024)) {
                         reject("accept-ranges not supported, file too big to download: " + httpZipByteLength);
                         return;
