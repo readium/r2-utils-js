@@ -9,8 +9,7 @@ import * as path from "path";
 import * as querystring from "querystring";
 
 export function isHTTP(urlOrPath: string): boolean {
-    // TODO: smarter regexp
-    return urlOrPath.indexOf("http") === 0;
+    return /^http[s]?:\/\//.test(urlOrPath);
 }
 
 export function encodeURIComponent_RFC3986(str: string): string {
