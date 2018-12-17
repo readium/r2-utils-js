@@ -54,7 +54,7 @@
     "request-promise-native": "^1.0.5",
     "ta-json-x": "^2.5.0",
     "tslib": "^1.9.3",
-    "unzipper": "^0.9.5",
+    "unzipper": "^0.9.6",
     "xpath": "^0.0.27",
     "yauzl": "^2.10.0",
     "yazl": "^2.5.1"
