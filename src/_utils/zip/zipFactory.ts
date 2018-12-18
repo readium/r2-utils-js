@@ -19,7 +19,6 @@ export async function zipLoadPromise(filePath: string): Promise<IZip> {
     if (isHTTP(filePath)) {
         const url = new URL(filePath);
         const p = url.pathname;
-        console.log("URL pathname: ", p);
         if (p.endsWith("/")) { // bit hacky? :(
             return ZipExplodedHTTP.loadPromise(filePath);
         }
