@@ -6,15 +6,23 @@
 // ==LICENSE-END==
 
 import * as fs from "fs";
+import { URL } from "url";
 
 import { isHTTP } from "../http/UrlUtils";
 import { IZip } from "./zip";
 import { ZipExploded } from "./zip-ex";
+import { ZipExplodedHTTP } from "./zip-ex-http";
 import { Zip1 } from "./zip1";
 import { Zip2 } from "./zip2";
 
 export async function zipLoadPromise(filePath: string): Promise<IZip> {
     if (isHTTP(filePath)) {
+        const url = new URL(filePath);
+        const p = url.pathname;
+        console.log("URL pathname: ", p);
+        if (p.endsWith("/")) { // bit hacky? :(
+            return ZipExplodedHTTP.loadPromise(filePath);
+        }
         return Zip2.loadPromise(filePath);
     }
 
