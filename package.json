@@ -1,6 +1,6 @@
 {
   "name": "r2-utils-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Readium 2 'utils' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
