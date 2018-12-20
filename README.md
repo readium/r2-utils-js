@@ -21,8 +21,6 @@ https://github.com/readium/r2-utils-js
 
 There is no [github.io](https://readium.github.io/r2-utils-js) site for this project (no [gh-pages](https://github.com/readium/r2-utils-js/tree/gh-pages) branch).
 
-Wiki documentation is not used, instead there are Markdown files inside the repository ([docs](https://github.com/readium/r2-utils-js/tree/develop/docs) folder).
-
 ## NPM package
 
 https://www.npmjs.com/package/r2-utils-js
