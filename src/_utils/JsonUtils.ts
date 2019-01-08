@@ -8,6 +8,9 @@
 interface IStringKeyedObject { [key: string]: any; }
 
 export function sortObject(obj: any): any {
+    if (obj === null) {
+        return null;
+    }
     if (obj instanceof Array) {
         for (let i = 0; i < obj.length; i++) {
             obj[i] = sortObject(obj[i]);
@@ -35,7 +38,7 @@ function traverseJsonObjects_(
     if (obj instanceof Array) {
         for (let index = 0; index < obj.length; index++) {
             const item = obj[index];
-            if (typeof item !== "undefined") {
+            if (item !== null && typeof item !== "undefined") {
                 traverseJsonObjects_(obj, index, item, func);
             }
         }
@@ -43,7 +46,7 @@ function traverseJsonObjects_(
         Object.keys(obj).forEach((key) => {
             if (obj.hasOwnProperty(key)) {
                 const item = obj[key];
-                if (typeof item !== "undefined") {
+                if (item !== null && typeof item !== "undefined") {
                     traverseJsonObjects_(obj, key, item, func);
                 }
             }
