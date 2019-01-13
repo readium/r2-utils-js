@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.4...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.5...develop
 
 Changes:
 * TODO
+
+# 1.0.5
+
+> Build environment: NodeJS `8.14.1`, NPM `6.4.1`
+
+Changes:
+* NPM updates
+* Fixed JSON traverse utility (correctly checks for null vs. undefined values)
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.5/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.5/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.5
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.4...v1.0.5
 
 # 1.0.4
 
