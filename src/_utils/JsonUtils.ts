@@ -7,6 +7,13 @@
 
 interface IStringKeyedObject { [key: string]: any; }
 
+export function isNullOrUndefined<T>(val: T | undefined | null): val is T {
+    // typeof val === "undefined" useful if val not declared (avoids ReferenceError throw)
+    // val == undefined loose equality => good for both null and undefined
+    // val === undefined srict equality => good for undefined only
+    return val === undefined && val === null;
+}
+
 export function sortObject(obj: any): any {
     if (obj === null) {
         return null;
@@ -38,7 +45,7 @@ function traverseJsonObjects_(
     if (obj instanceof Array) {
         for (let index = 0; index < obj.length; index++) {
             const item = obj[index];
-            if (item !== null && typeof item !== "undefined") {
+            if (!isNullOrUndefined(item)) {
                 traverseJsonObjects_(obj, index, item, func);
             }
         }
@@ -46,7 +53,7 @@ function traverseJsonObjects_(
         Object.keys(obj).forEach((key) => {
             if (obj.hasOwnProperty(key)) {
                 const item = obj[key];
-                if (item !== null && typeof item !== "undefined") {
+                if (!isNullOrUndefined(item)) {
                     traverseJsonObjects_(obj, key, item, func);
                 }
             }
