@@ -47,14 +47,14 @@
   "homepage": "https://github.com/readium/r2-utils-js",
   "dependencies": {
     "debug": "^4.1.1",
-    "filehound": "^1.16.5",
-    "node-stream-zip": "^1.7.0",
+    "filehound": "^1.17.0",
+    "node-stream-zip": "^1.8.0",
     "reflect-metadata": "^0.1.12",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "ta-json-x": "^2.5.0",
     "tslib": "^1.9.3",
-    "unzipper": "^0.9.7",
+    "unzipper": "^0.9.10",
     "xpath": "^0.0.27",
     "yauzl": "^2.10.0",
     "yazl": "^2.5.1"
@@ -74,7 +74,7 @@
     "rimraf": "^2.6.3",
     "tslint": "^5.12.1",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.2.4"
+    "typescript": "^3.3.1"
   },
   "main": "dist/es6-es2015/src/_utils/perf-cli.js",
   "types": "dist/es6-es2015/src/_utils/perf-cli.d.js",
