@@ -11,6 +11,8 @@ export function isNullOrUndefined<T>(val: T | undefined | null): val is T {
     // typeof val === "undefined" useful if val not declared (avoids ReferenceError throw)
     // val == undefined loose equality => good for both null and undefined
     // val === undefined srict equality => good for undefined only
+    // note that if val === null, typeof val === "object"
+    // whereas if val === undefined, typeof val === "undefined"
     return val === undefined && val === null;
 }
 
@@ -23,7 +25,7 @@ export function sortObject(obj: any): any {
             obj[i] = sortObject(obj[i]);
         }
         return obj;
-    } else if (typeof obj !== "object") {
+    } else if (typeof obj !== "object") { //  || obj === null
         return obj;
     }
 
@@ -49,7 +51,7 @@ function traverseJsonObjects_(
                 traverseJsonObjects_(obj, index, item, func);
             }
         }
-    } else if (typeof obj === "object") {
+    } else if (typeof obj === "object" && obj !== null) {
         Object.keys(obj).forEach((key) => {
             if (obj.hasOwnProperty(key)) {
                 const item = obj[key];
