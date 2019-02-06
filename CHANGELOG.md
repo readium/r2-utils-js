@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.5...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.6...develop
 
 Changes:
 * TODO
+
+# 1.0.6
+
+> Build environment: NodeJS `8.14.1`, NPM `6.4.1`
+
+Changes:
+* NPM updates
+* Added sanity check in JSON traversal for edge-case of property val === null (which is typeof val === "object")
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.6/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.6/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.6
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.5...v1.0.6
 
 # 1.0.5
 
