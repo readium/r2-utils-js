@@ -18,6 +18,9 @@
     ],
     "baseUrl": "..",
     "paths": {
+      "filehound": [
+        "src/noop.d.ts"
+      ],
       "@r2-utils-js/*": [
         "src/*"
       ],
