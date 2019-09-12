@@ -7,11 +7,10 @@
 
 import "reflect-metadata";
 
-import * as util from "util";
-
 import * as debug_ from "debug";
 import { JsonProperty } from "ta-json-x";
 import { getDefinition } from "ta-json-x/dist/cjs/classes/object-definition";
+import * as util from "util";
 
 const debug = debug_("r2:utils#ta-json-x/JsonPropertyEx");
 

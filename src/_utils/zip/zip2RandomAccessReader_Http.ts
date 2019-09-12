@@ -5,12 +5,11 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
-import { PassThrough } from "stream";
-import * as util from "util";
-
 import * as debug_ from "debug";
 import * as request from "request";
 import * as requestPromise from "request-promise-native";
+import { PassThrough } from "stream";
+import * as util from "util";
 import * as yauzl from "yauzl";
 
 import { bufferToStream, streamToBufferPromise } from "../stream/BufferUtils";

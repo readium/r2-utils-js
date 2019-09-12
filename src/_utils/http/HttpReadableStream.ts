@@ -5,13 +5,12 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
-import { Readable } from "stream";
-
 import * as debug_ from "debug";
 import * as request from "request";
 import * as requestPromise from "request-promise-native";
+import { Readable } from "stream";
 
-import { streamToBufferPromise } from "@utils/stream/BufferUtils";
+import { streamToBufferPromise } from "../stream/BufferUtils";
 
 /////////////
 /////////////
