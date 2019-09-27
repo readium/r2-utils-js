@@ -13,7 +13,7 @@ export function isNullOrUndefined<T>(val: T | undefined | null): val is T {
     // val === undefined srict equality => good for undefined only
     // note that if val === null, typeof val === "object"
     // whereas if val === undefined, typeof val === "undefined"
-    return val === undefined && val === null;
+    return val === undefined || val === null;
 }
 
 export function sortObject(obj: any): any {
