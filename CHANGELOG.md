@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.13...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.14...develop
 
 Changes:
 * TODO
+
+# 1.0.14
+
+> Build environment: NodeJS `10.16.3`, NPM `6.11.3`
+
+Changes:
+* Fixed bug in JSON tree walker (incorrect null / undefined check)
+* NPM updates
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.14/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.14/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.14
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.13...v1.0.14
 
 # 1.0.13
 
