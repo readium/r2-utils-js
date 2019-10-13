@@ -8,7 +8,7 @@
 import { IPropertyConverter } from "./converter";
 
 export class BufferConverter implements IPropertyConverter {
-    private encoding: string = "utf8";
+    private encoding: BufferEncoding = "utf8";
 
     // constructor(encoding: string = "json") {
     //     this.encoding = encoding;
@@ -25,7 +25,7 @@ export class BufferConverter implements IPropertyConverter {
         // if (this.encoding === "json") {
         //     return Buffer.from((value as any).data);
         // }
-        return Buffer.from(value as string, this.encoding);
+        return Buffer.from(value, this.encoding);
     }
 
     public collapseArrayWithSingleItem(): boolean {
