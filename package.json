@@ -119,6 +119,7 @@
     "cli": "node \"./dist/es8-es2017/src/_utils/perf-cli.js\"",
     "cli-debug": "cross-env DEBUG=r2:* npm run cli",
     "cli-debug-x": "cross-env DEBUG=* npm run cli",
+    "cli-crc": "node \"./dist/es8-es2017/src/_utils/perf-zip-crc-cli.js\"",
     "prebuild:es5": "npm run lint && npm run clean",
     "build:es5": "npm run transpile:typescript:es5",
     "postbuild:es5": "npm run afterdist",
