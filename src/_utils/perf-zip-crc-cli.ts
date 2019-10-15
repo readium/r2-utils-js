@@ -91,7 +91,16 @@ const zip1 = async (file: string): Promise<number[]> => {
             // console.log(zip.entriesCount);
 
             const crcs = Object.values(zip.entries()).map((zipEntry: any) => {
-                return zipEntry.crc as number;
+                // if (/\/$/.test(zipEntry.name)) {
+                if (zipEntry.name[zipEntry.name.length - 1] === "/") {
+                    // skip directories / folders
+                    return 0;
+                } else {
+                    if (!zipEntry.crc) {
+                        console.log(`1 CRC zero? ${zipEntry.name} => ${zipEntry.crc}`);
+                    }
+                    return zipEntry.crc as number;
+                }
             }).filter((val: number) => {
                 return val; // falsy includes zero, null, undefined
             });
@@ -130,7 +139,9 @@ const zip2 = async (file: string): Promise<number[]> => {
                 if (entry.fileName[entry.fileName.length - 1] === "/") {
                     // skip directories / folders
                 } else {
-                    // console.log(entry.fileName);
+                    if (!entry.crc32) {
+                        console.log(`2 CRC zero? ${entry.fileName} => ${entry.crc32}`);
+                    }
                     if (!crcs) {
                         crcs = [];
                     }
@@ -175,7 +186,16 @@ const zip3 = async (file: string): Promise<number[]> => {
             return;
         }
         const crcs = zip.files.map((zipEntry: any) => {
-            return zipEntry.crc32 as number;
+            // if (/\/$/.test(zipEntry.path)) {
+            if (zipEntry.path[zipEntry.path.length - 1] === "/") {
+                // skip directories / folders
+                return 0;
+            } else {
+                if (!zipEntry.crc32) {
+                    console.log(`3 CRC zero? ${zipEntry.path} => ${zipEntry.crc32}`);
+                }
+                return zipEntry.crc32 as number;
+            }
         }).filter((val: number) => {
             return val; // falsy includes zero, null, undefined
         });
