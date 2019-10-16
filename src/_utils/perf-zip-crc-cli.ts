@@ -19,6 +19,7 @@ import * as yauzl from "yauzl";
 // ZIP 3
 import * as unzipper from "unzipper";
 
+const N_ITERATIONS = 40;
 const VERBOSE = false;
 
 console.log("process.cwd():");
@@ -60,6 +61,40 @@ if (!stats.isFile() && !stats.isDirectory()) {
 const fileName = path.basename(filePath);
 const ext = path.extname(fileName).toLowerCase();
 
+const argExtra = args[1] ? args[1].trim() : undefined;
+const READ_ZIP_STREAMS = argExtra === "1";
+
+async function streamReadAll(readStream: NodeJS.ReadableStream): Promise<number> {
+
+    return new Promise<number>((resolve, reject) => {
+
+        let totalBytes = 0;
+
+        const cleanup = () => {
+            readStream.removeListener("data", handleData);
+            readStream.removeListener("error", handleError);
+            readStream.removeListener("end", handleEnd);
+        };
+
+        const handleError = () => {
+            cleanup();
+            reject();
+        };
+        readStream.on("error", handleError);
+
+        const handleData = (data: Buffer) => {
+            totalBytes += data.length;
+        };
+        readStream.on("data", handleData);
+
+        const handleEnd = () => {
+            cleanup();
+            resolve(totalBytes);
+        };
+        readStream.on("end", handleEnd);
+    });
+}
+
 const zip1 = async (file: string): Promise<number[]> => {
     return new Promise<number[]>((resolve, reject) => {
 
@@ -86,24 +121,44 @@ const zip1 = async (file: string): Promise<number[]> => {
             console.log(f);
         });
 
-        zip.on("ready", () => {
+        zip.on("ready", async () => {
             // console.log("--ZIP: ready");
             // console.log(zip.entriesCount);
 
             const crcs = Object.values(zip.entries()).map((zipEntry: any) => {
                 // if (/\/$/.test(zipEntry.name)) {
-                if (zipEntry.name[zipEntry.name.length - 1] === "/") {
+                if (zipEntry.isDirectory) { // zipEntry.name[zipEntry.name.length - 1] === "/"
                     // skip directories / folders
                     return 0;
                 } else {
-                    if (!zipEntry.crc) {
-                        console.log(`1 CRC zero? ${zipEntry.name} => ${zipEntry.crc}`);
+                    if (!zipEntry.crc && zipEntry.size) {
+                        console.log(`1 CRC zero? ${zipEntry.name} (${zipEntry.size} bytes) => ${zipEntry.crc}`);
                     }
                     return zipEntry.crc as number;
                 }
             }).filter((val: number) => {
                 return val; // falsy includes zero, null, undefined
             });
+
+            if (READ_ZIP_STREAMS) {
+                const zipEntries = Object.values(zip.entries()) as any[];
+                for (const zipEntry of zipEntries) {
+                    const size = await new Promise((res, rej) => {
+                        zip.stream(zipEntry.name, async (err: any, stream: any) => {
+                            if (err) {
+                                console.log(err);
+                                rej(err);
+                            }
+                            // stream.pipe(process.stdout);
+                            const totalBytes = streamReadAll(stream);
+                            res(totalBytes);
+                        });
+                    });
+                    if (zipEntry.size !== size) {
+                        console.log(`1 SIZE MISMATCH? ${zipEntry.name} ${zipEntry.size} != ${size}`);
+                    }
+                }
+            }
 
             process.nextTick(() => {
                 zip.close();
@@ -139,8 +194,9 @@ const zip2 = async (file: string): Promise<number[]> => {
                 if (entry.fileName[entry.fileName.length - 1] === "/") {
                     // skip directories / folders
                 } else {
-                    if (!entry.crc32) {
-                        console.log(`2 CRC zero? ${entry.fileName} => ${entry.crc32}`);
+                    if (!entry.crc32 && entry.uncompressedSize) {
+                        // tslint:disable-next-line:max-line-length
+                        console.log(`2 CRC zero? ${entry.fileName} (${entry.uncompressedSize} bytes) => ${entry.crc32}`);
                     }
                     if (!crcs) {
                         crcs = [];
@@ -152,6 +208,10 @@ const zip2 = async (file: string): Promise<number[]> => {
 
             zip.on("end", () => {
                 // console.log("yauzl END");
+
+                if (READ_ZIP_STREAMS) {
+                    // TODO
+                }
 
                 process.nextTick(() => {
                     zip.close(); // not autoClose
@@ -187,26 +247,30 @@ const zip3 = async (file: string): Promise<number[]> => {
         }
         const crcs = zip.files.map((zipEntry: any) => {
             // if (/\/$/.test(zipEntry.path)) {
-            if (zipEntry.path[zipEntry.path.length - 1] === "/") {
+            if (zipEntry.type === "Directory") { // zipEntry.path[zipEntry.path.length - 1] === "/")
                 // skip directories / folders
                 return 0;
             } else {
-                if (!zipEntry.crc32) {
-                    console.log(`3 CRC zero? ${zipEntry.path} => ${zipEntry.crc32}`);
+                if (!zipEntry.crc32 && zipEntry.uncompressedSize) {
+                    // tslint:disable-next-line:max-line-length
+                    console.log(`3 CRC zero? ${zipEntry.path} (${zipEntry.uncompressedSize} bytes) => ${zipEntry.crc32}`);
                 }
                 return zipEntry.crc32 as number;
             }
         }).filter((val: number) => {
             return val; // falsy includes zero, null, undefined
         });
+
+        if (READ_ZIP_STREAMS) {
+            // TODO
+        }
+
         resolve(crcs);
     });
 };
 (zip3 as any).zipName = "unzipper";
 
 const zips = [zip1, zip2, zip3];
-
-const N_ITERATIONS = 40;
 
 async function processFile(file: string) {
     console.log(`=====================================`);
@@ -237,7 +301,7 @@ async function processFile(file: string) {
             }
             if (nanos < minNanoOverall) {
                 minNanoOverall = nanos;
-                winner = 1;
+                winner = iZip;
             }
 
             if (VERBOSE) {
