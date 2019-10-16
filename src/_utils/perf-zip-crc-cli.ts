@@ -19,9 +19,6 @@ import * as yauzl from "yauzl";
 // ZIP 3
 import * as unzipper from "unzipper";
 
-const N_ITERATIONS = 40;
-const VERBOSE = false;
-
 console.log("process.cwd():");
 console.log(process.cwd());
 
@@ -63,6 +60,9 @@ const ext = path.extname(fileName).toLowerCase();
 
 const argExtra = args[1] ? args[1].trim() : undefined;
 const READ_ZIP_STREAMS = argExtra === "1";
+
+const VERBOSE = false;
+const N_ITERATIONS = (READ_ZIP_STREAMS && VERBOSE) ? 1 : 10;
 
 async function streamReadAll(readStream: NodeJS.ReadableStream): Promise<number> {
 
@@ -125,7 +125,9 @@ const zip1 = async (file: string): Promise<number[]> => {
             // console.log("--ZIP: ready");
             // console.log(zip.entriesCount);
 
-            const crcs = Object.values(zip.entries()).map((zipEntry: any) => {
+            const zipEntries = Object.values(zip.entries()) as any[];
+
+            const crcs = zipEntries.map((zipEntry: any) => {
                 // if (/\/$/.test(zipEntry.name)) {
                 if (zipEntry.isDirectory) { // zipEntry.name[zipEntry.name.length - 1] === "/"
                     // skip directories / folders
@@ -141,22 +143,35 @@ const zip1 = async (file: string): Promise<number[]> => {
             });
 
             if (READ_ZIP_STREAMS) {
-                const zipEntries = Object.values(zip.entries()) as any[];
+                if (VERBOSE) {
+                    process.stdout.write("## 1 ##\n");
+                }
                 for (const zipEntry of zipEntries) {
-                    const size = await new Promise((res, rej) => {
-                        zip.stream(zipEntry.name, async (err: any, stream: any) => {
+                    if (zipEntry.isDirectory) {
+                        continue;
+                    }
+                    const promize = new Promise((res, rej) => {
+                        zip.stream(zipEntry.name, async (err: any, stream: NodeJS.ReadableStream) => {
                             if (err) {
                                 console.log(err);
                                 rej(err);
+                                return;
                             }
                             // stream.pipe(process.stdout);
                             const totalBytes = streamReadAll(stream);
                             res(totalBytes);
                         });
                     });
+                    const size = await promize;
                     if (zipEntry.size !== size) {
                         console.log(`1 SIZE MISMATCH? ${zipEntry.name} ${zipEntry.size} != ${size}`);
                     }
+                    if (VERBOSE) {
+                        process.stdout.write(` ${zipEntry.name} `);
+                    }
+                }
+                if (VERBOSE) {
+                    process.stdout.write("\n");
                 }
             }
 
@@ -174,11 +189,11 @@ const zip1 = async (file: string): Promise<number[]> => {
 const zip2 = async (file: string): Promise<number[]> => {
     return new Promise<number[]>((resolve, reject) => {
         let crcs: number[] | undefined;
-        yauzl.open(file, { lazyEntries: true, autoClose: false }, (err: any, zip: any) => {
-            if (err) {
+        yauzl.open(file, { lazyEntries: true, autoClose: false }, (error: any, zip: any) => {
+            if (error) {
                 console.log("yauzl init ERROR");
-                console.log(err);
-                reject(err);
+                console.log(error);
+                reject(error);
                 return;
             }
 
@@ -188,29 +203,57 @@ const zip2 = async (file: string): Promise<number[]> => {
                 reject(erro);
             });
 
+            if (READ_ZIP_STREAMS && VERBOSE) {
+                process.stdout.write("## 2 ##\n");
+            }
+
             zip.readEntry(); // next (lazyEntries)
-            zip.on("entry", (entry: any) => {
+            zip.on("entry", async (zipEntry: any) => {
                 // if (/\/$/.test(entry.fileName)) {
-                if (entry.fileName[entry.fileName.length - 1] === "/") {
+                if (zipEntry.fileName[zipEntry.fileName.length - 1] === "/") {
                     // skip directories / folders
                 } else {
-                    if (!entry.crc32 && entry.uncompressedSize) {
+                    if (!zipEntry.crc32 && zipEntry.uncompressedSize) {
                         // tslint:disable-next-line:max-line-length
-                        console.log(`2 CRC zero? ${entry.fileName} (${entry.uncompressedSize} bytes) => ${entry.crc32}`);
+                        console.log(`2 CRC zero? ${zipEntry.fileName} (${zipEntry.uncompressedSize} bytes) => ${zipEntry.crc32}`);
                     }
                     if (!crcs) {
                         crcs = [];
                     }
-                    crcs.push(entry.crc32 as number);
+                    crcs.push(zipEntry.crc32 as number);
+
+                    if (READ_ZIP_STREAMS) {
+                        const promize = new Promise((res, rej) => {
+                            zip.openReadStream(zipEntry, (err: any, stream: NodeJS.ReadableStream) => {
+                                if (err) {
+                                    console.log(err);
+                                    rej(err);
+                                    return;
+                                }
+                                // stream.pipe(process.stdout);
+                                const totalBytes = streamReadAll(stream);
+                                res(totalBytes);
+                            });
+                        });
+                        const size = await promize;
+                        if (zipEntry.uncompressedSize !== size) {
+                            // tslint:disable-next-line:max-line-length
+                            console.log(`2 SIZE MISMATCH? ${zipEntry.fileName} ${zipEntry.uncompressedSize} != ${size}`);
+                        }
+                        if (VERBOSE) {
+                            process.stdout.write(` ${zipEntry.fileName} `);
+                        }
+                    }
                 }
+
                 zip.readEntry(); // next (lazyEntries)
             });
 
             zip.on("end", () => {
                 // console.log("yauzl END");
 
-                if (READ_ZIP_STREAMS) {
-                    // TODO
+                if (READ_ZIP_STREAMS && VERBOSE) {
+                    process.stdout.write("\n");
                 }
 
                 process.nextTick(() => {
@@ -262,7 +305,38 @@ const zip3 = async (file: string): Promise<number[]> => {
         });
 
         if (READ_ZIP_STREAMS) {
-            // TODO
+            if (VERBOSE) {
+                process.stdout.write("## 3 ##\n");
+            }
+            for (const zipEntry of zip.files) {
+                if (zipEntry.type === "Directory") {
+                    continue;
+                }
+                const stream = zipEntry.stream();
+                const promize = streamReadAll(stream);
+
+                // https://github.com/ZJONSSON/node-unzipper/issues/104
+                stream.on("finish", () => {
+                    setTimeout(() => stream, 100);
+                });
+                // events.js:174
+                // throw er; // Unhandled 'error' event
+                // Error: EBADF: bad file descriptor, read
+                // Emitted 'error' event at:
+                // at lazyFs.read (internal/fs/streams.js:165:12)
+                // at FSReqWrap.wrapper [as oncomplete] (fs.js:467:17)
+
+                const size = await promize;
+                if (zipEntry.uncompressedSize !== size) {
+                    console.log(`3 SIZE MISMATCH? ${zipEntry.path} ${zipEntry.uncompressedSize} != ${size}`);
+                }
+                if (VERBOSE) {
+                    process.stdout.write(` ${zipEntry.path} `);
+                }
+            }
+            if (VERBOSE) {
+                process.stdout.write("\n");
+            }
         }
 
         resolve(crcs);
@@ -295,6 +369,13 @@ async function processFile(file: string) {
             const time = process.hrtime();
             const crcs = await zip(file);
             const diffTime = process.hrtime(time);
+
+            // await new Promise((res, _rej) => {
+            //     setTimeout(() => {
+            //         res();
+            //     }, 100);
+            // });
+
             const nanos = diffTime[0] * 1e9 + diffTime[1];
             if (nanos < (zip as any).minNano) {
                 (zip as any).minNano = nanos;
