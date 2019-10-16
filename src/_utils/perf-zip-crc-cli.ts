@@ -61,8 +61,8 @@ const ext = path.extname(fileName).toLowerCase();
 const argExtra = args[1] ? args[1].trim() : undefined;
 const READ_ZIP_STREAMS = argExtra === "1";
 
-const VERBOSE = false;
-const N_ITERATIONS = (READ_ZIP_STREAMS && VERBOSE) ? 1 : 10;
+const VERBOSE = process.env.DEBUG || false;
+const N_ITERATIONS = (READ_ZIP_STREAMS && VERBOSE) ? 1 : (READ_ZIP_STREAMS ? 5 : 10);
 
 async function streamReadAll(readStream: NodeJS.ReadableStream): Promise<number> {
 
@@ -76,9 +76,9 @@ async function streamReadAll(readStream: NodeJS.ReadableStream): Promise<number>
             readStream.removeListener("end", handleEnd);
         };
 
-        const handleError = () => {
+        const handleError = (err: any) => {
             cleanup();
-            reject();
+            reject(err);
         };
         readStream.on("error", handleError);
 
@@ -159,20 +159,23 @@ const zip1 = async (file: string): Promise<number[]> => {
                             }
                             // stream.pipe(process.stdout);
                             const totalBytes = streamReadAll(stream);
-                            res(totalBytes);
+                            process.nextTick(() => {
+                                res(totalBytes);
+                            });
                         });
                     });
                     const size = await promize;
                     if (zipEntry.size !== size) {
                         console.log(`1 SIZE MISMATCH? ${zipEntry.name} ${zipEntry.size} != ${size}`);
                     }
+
                     if (VERBOSE) {
                         process.stdout.write(` ${zipEntry.name} `);
+                    } else {
+                        process.stdout.write(".");
                     }
                 }
-                if (VERBOSE) {
-                    process.stdout.write("\n");
-                }
+                process.stdout.write("\n");
             }
 
             process.nextTick(() => {
@@ -232,7 +235,9 @@ const zip2 = async (file: string): Promise<number[]> => {
                                 }
                                 // stream.pipe(process.stdout);
                                 const totalBytes = streamReadAll(stream);
-                                res(totalBytes);
+                                process.nextTick(() => {
+                                    res(totalBytes);
+                                });
                             });
                         });
                         const size = await promize;
@@ -240,8 +245,11 @@ const zip2 = async (file: string): Promise<number[]> => {
                             // tslint:disable-next-line:max-line-length
                             console.log(`2 SIZE MISMATCH? ${zipEntry.fileName} ${zipEntry.uncompressedSize} != ${size}`);
                         }
+
                         if (VERBOSE) {
                             process.stdout.write(` ${zipEntry.fileName} `);
+                        } else {
+                            process.stdout.write(".");
                         }
                     }
                 }
@@ -252,7 +260,7 @@ const zip2 = async (file: string): Promise<number[]> => {
             zip.on("end", () => {
                 // console.log("yauzl END");
 
-                if (READ_ZIP_STREAMS && VERBOSE) {
+                if (READ_ZIP_STREAMS) {
                     process.stdout.write("\n");
                 }
 
@@ -277,6 +285,17 @@ const zip2 = async (file: string): Promise<number[]> => {
     });
 };
 (zip2 as any).zipName = "yauzl";
+
+// <<< UNZIPPER_BUG
+// https://github.com/ZJONSSON/node-unzipper/issues/104
+// events.js:174
+// throw er; // Unhandled 'error' event
+// Error: EBADF: bad file descriptor, read
+// Emitted 'error' event at:
+// at lazyFs.read (internal/fs/streams.js:165:12)
+// at FSReqWrap.wrapper [as oncomplete] (fs.js:467:17)
+const streams: any = {};
+// >>> UNZIPPER_BUG
 
 const zip3 = async (file: string): Promise<number[]> => {
     return new Promise<number[]>(async (resolve, reject) => {
@@ -313,30 +332,64 @@ const zip3 = async (file: string): Promise<number[]> => {
                     continue;
                 }
                 const stream = zipEntry.stream();
-                const promize = streamReadAll(stream);
 
-                // https://github.com/ZJONSSON/node-unzipper/issues/104
-                stream.on("finish", () => {
-                    setTimeout(() => stream, 100);
+                // <<< UNZIPPER_BUG
+                stream.on("error", (err: any) => {
+                    console.log("err1");
+                    console.log(err);
                 });
-                // events.js:174
-                // throw er; // Unhandled 'error' event
-                // Error: EBADF: bad file descriptor, read
-                // Emitted 'error' event at:
-                // at lazyFs.read (internal/fs/streams.js:165:12)
-                // at FSReqWrap.wrapper [as oncomplete] (fs.js:467:17)
+                stream.__ZIP_FILE_PATH = file;
+                stream.__ZIP_RESOURCE_PATH = zipEntry.path;
+                if (!streams[file]) {
+                    streams[file] = {};
+                }
+                streams[file][zipEntry.path] = stream; // prevents premature garbage collection
 
-                const size = await promize;
+                // event sequence: FINISH, then END
+                stream.on("end", () => {
+                    // console.log(`${zipEntry.path} END`);
+
+                    process.nextTick(() => {
+                        // console.log(`${stream.__ZIP_FILE_PATH} ${stream.__ZIP_RESOURCE_PATH} CLEAN`);
+                        // streams[stream.__ZIP_FILE_PATH][stream.__ZIP_RESOURCE_PATH] = null;
+                        delete streams[stream.__ZIP_FILE_PATH][stream.__ZIP_RESOURCE_PATH];
+                    });
+
+                    // setTimeout(() => {
+                    //     return stream; // prevents premature garbage collection
+                    // }, 200);
+                });
+                // >>> UNZIPPER_BUG
+
+                const promize = streamReadAll(stream);
+                let size: number;
+                try {
+                    size = await promize;
+                } catch (err) {
+                    console.log("err2");
+                    console.log(err);
+                    reject(err);
+                    return;
+                }
+
                 if (zipEntry.uncompressedSize !== size) {
                     console.log(`3 SIZE MISMATCH? ${zipEntry.path} ${zipEntry.uncompressedSize} != ${size}`);
                 }
+
                 if (VERBOSE) {
                     process.stdout.write(` ${zipEntry.path} `);
+                } else {
+                    process.stdout.write(".");
                 }
             }
-            if (VERBOSE) {
-                process.stdout.write("\n");
-            }
+            process.stdout.write("\n");
+
+            // <<< UNZIPPER_BUG
+            process.nextTick(() => {
+                // streams[file] = null;
+                delete streams[file];
+            });
+            // >>> UNZIPPER_BUG
         }
 
         resolve(crcs);
@@ -344,11 +397,12 @@ const zip3 = async (file: string): Promise<number[]> => {
 };
 (zip3 as any).zipName = "unzipper";
 
-const zips = [zip1, zip2, zip3];
+const zips = READ_ZIP_STREAMS ? [zip1, zip2] : // <<< UNZIPPER_BUG
+    [zip1, zip2, zip3];
 
 async function processFile(file: string) {
     console.log(`=====================================`);
-    console.log(`PROCESSING: ${file}`);
+    console.log(`${file}`);
     console.log(`=====================================`);
 
     let winner = 0;
@@ -414,17 +468,19 @@ async function processFile(file: string) {
     let isDiff = false;
     for (const zip of zips) {
         if (crcsPreviousZip && (zip as any).CRCs) {
-            if (crcsPreviousZip.length !== (zip as any).CRCs.length) {
-                isDiff = true;
-                break;
-            } else {
-                for (let j = 0; j < (zip as any).CRCs.length; j++) {
-                    if ((zip as any).CRCs[j] !== crcsPreviousZip[j]) {
-                        isDiff = true;
-                        break;
-                    }
-                }
-            }
+
+            isDiff = !sameArrays(crcsPreviousZip, (zip as any).CRCs);
+            // if (crcsPreviousZip.length !== (zip as any).CRCs.length) {
+            //     isDiff = true;
+            //     break;
+            // } else {
+            //     for (let j = 0; j < (zip as any).CRCs.length; j++) {
+            //         if ((zip as any).CRCs[j] !== crcsPreviousZip[j]) {
+            //             isDiff = true;
+            //             break;
+            //         }
+            //     }
+            // }
             if (isDiff) {
                 break;
             }
@@ -473,8 +529,9 @@ async function processFile(file: string) {
     iZip = 0;
     for (const zip of zips) {
         iZip++;
+        const won = iZip === winner;
         // tslint:disable-next-line:max-line-length
-        console.log(`>> Zip ${iZip} (${(zip as any).zipName}) => ${(zip as any).minNano.toLocaleString()} nanoseconds ${iZip === winner ? " [ WINNER ]" : `[ +${((zip as any).minNano - minNanoOverall).toLocaleString()} ]`}`);
+        console.log(`${won ? ">>" : "--"} Zip ${iZip} (${(zip as any).zipName}) => ${(zip as any).minNano.toLocaleString()} nanoseconds ${won ? " [ WINNER ]" : `[ +${((zip as any).minNano - minNanoOverall).toLocaleString()} ]`}`);
     }
 }
 
