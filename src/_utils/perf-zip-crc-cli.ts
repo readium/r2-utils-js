@@ -5,6 +5,12 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+// USAGE:
+// DEBUG=1 npm run cli-crc "/PATH/TO/EPUBs/" "1"
+// "/PATH/TO/EPUBs/" can be a single file "/PATH/TO/EPUB.epub" (instead of a folder)
+// => the DEBUG env var enables verbose console logging (remove completely to disable)
+// => the "1" trailing command line argument enables resource streaming (in addition to ZIP directory CRC checks)
+
 import * as fs from "fs";
 import * as path from "path";
 
@@ -61,6 +67,7 @@ const ext = path.extname(fileName).toLowerCase();
 const argExtra = args[1] ? args[1].trim() : undefined;
 const READ_ZIP_STREAMS = argExtra === "1";
 
+const UNVERBOSE = false;
 const VERBOSE = process.env.DEBUG || false;
 const N_ITERATIONS = (READ_ZIP_STREAMS && VERBOSE) ? 1 : (READ_ZIP_STREAMS ? 5 : 10);
 
@@ -171,11 +178,13 @@ const zip1 = async (file: string): Promise<number[]> => {
 
                     if (VERBOSE) {
                         process.stdout.write(` ${zipEntry.name} `);
-                    } else {
+                    } else if (!UNVERBOSE) {
                         process.stdout.write(".");
                     }
                 }
-                process.stdout.write("\n");
+                if (!UNVERBOSE) {
+                    process.stdout.write("\n");
+                }
             }
 
             process.nextTick(() => {
@@ -248,7 +257,7 @@ const zip2 = async (file: string): Promise<number[]> => {
 
                         if (VERBOSE) {
                             process.stdout.write(` ${zipEntry.fileName} `);
-                        } else {
+                        } else if (!UNVERBOSE) {
                             process.stdout.write(".");
                         }
                     }
@@ -260,7 +269,7 @@ const zip2 = async (file: string): Promise<number[]> => {
             zip.on("end", () => {
                 // console.log("yauzl END");
 
-                if (READ_ZIP_STREAMS) {
+                if (READ_ZIP_STREAMS && !UNVERBOSE) {
                     process.stdout.write("\n");
                 }
 
@@ -378,11 +387,13 @@ const zip3 = async (file: string): Promise<number[]> => {
 
                 if (VERBOSE) {
                     process.stdout.write(` ${zipEntry.path} `);
-                } else {
+                } else if (!UNVERBOSE) {
                     process.stdout.write(".");
                 }
             }
-            process.stdout.write("\n");
+            if (!UNVERBOSE) {
+                process.stdout.write("\n");
+            }
 
             // <<< UNZIPPER_BUG
             process.nextTick(() => {
@@ -402,8 +413,10 @@ const zips = READ_ZIP_STREAMS ? [zip1, zip2] : // <<< UNZIPPER_BUG
 
 async function processFile(file: string) {
     console.log(`=====================================`);
-    console.log(`${file}`);
-    console.log(`=====================================`);
+    if (!UNVERBOSE) {
+        console.log(`${file}`);
+        console.log(`=====================================`);
+    }
 
     let winner = 0;
     let minNanoOverall = Number.MAX_SAFE_INTEGER;
