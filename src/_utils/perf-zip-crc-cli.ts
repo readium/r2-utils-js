@@ -433,6 +433,8 @@ async function processFile(file: string) {
 
         let crcsPreviousIteration: number[] | undefined;
         for (let i = 0; i < N_ITERATIONS; i++) {
+            process.stdout.write(`${i + 1}/${N_ITERATIONS} `);
+
             const time = process.hrtime();
             const crcs = await zip(file);
             const diffTime = process.hrtime(time);
