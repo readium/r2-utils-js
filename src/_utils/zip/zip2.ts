@@ -28,8 +28,8 @@ export class Zip2 extends Zip {
 
         return new Promise<IZip>((resolve, reject) => {
 
-            yauzl.open(filePath, { lazyEntries: true, autoClose: false }, (err: any, zip: any) => {
-                if (err) {
+            yauzl.open(filePath, { lazyEntries: true, autoClose: false }, (err, zip) => {
+                if (err || !zip) {
                     debug("yauzl init ERROR");
                     debug(err);
                     reject(err);
@@ -37,14 +37,14 @@ export class Zip2 extends Zip {
                 }
                 const zip2 = new Zip2(filePath, zip);
 
-                zip.on("error", (erro: any) => {
+                zip.on("error", (erro) => {
                     debug("yauzl ERROR");
                     debug(erro);
                     reject(erro);
                 });
 
                 zip.readEntry(); // next (lazyEntries)
-                zip.on("entry", (entry: any) => {
+                zip.on("entry", (entry) => {
                     // if (/\/$/.test(entry.fileName)) {
                     if (entry.fileName[entry.fileName.length - 1] === "/") {
                         // skip directories / folders
@@ -142,8 +142,8 @@ export class Zip2 extends Zip {
 
                         yauzl.fromBuffer(buffer,
                             { lazyEntries: true },
-                            (err: any, zip: any) => {
-                                if (err) {
+                            (err, zip) => {
+                                if (err || !zip) {
                                     debug("yauzl init ERROR");
                                     debug(err);
                                     reject(err);
@@ -151,14 +151,14 @@ export class Zip2 extends Zip {
                                 }
                                 const zip2 = new Zip2(filePath, zip);
 
-                                zip.on("error", (erro: any) => {
+                                zip.on("error", (erro) => {
                                     debug("yauzl ERROR");
                                     debug(erro);
                                     reject(erro);
                                 });
 
                                 zip.readEntry(); // next (lazyEntries)
-                                zip.on("entry", (entry: any) => {
+                                zip.on("entry", (entry) => {
                                     if (entry.fileName[entry.fileName.length - 1] === "/") {
                                         // skip directories / folders
                                     } else {
@@ -211,14 +211,14 @@ export class Zip2 extends Zip {
                 const httpZipReader = new HttpZipReader(filePath, httpZipByteLength);
                 yauzl.fromRandomAccessReader(httpZipReader, httpZipByteLength,
                     { lazyEntries: true, autoClose: false },
-                    (err: any, zip: any) => {
-                        if (err) {
+                    (err, zip) => {
+                        if (err || !zip) {
                             debug("yauzl init ERROR");
                             debug(err);
                             reject(err);
                             return;
                         }
-                        zip.httpZipReader = httpZipReader;
+                        (zip as any).httpZipReader = httpZipReader;
                         const zip2 = new Zip2(filePath, zip);
 
                         zip.on("error", (erro: any) => {

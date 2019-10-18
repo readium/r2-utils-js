@@ -201,15 +201,15 @@ const zip1 = async (file: string): Promise<number[]> => {
 const zip2 = async (file: string): Promise<number[]> => {
     return new Promise<number[]>((resolve, reject) => {
         let crcs: number[] | undefined;
-        yauzl.open(file, { lazyEntries: true, autoClose: false }, (error: any, zip: any) => {
-            if (error) {
+        yauzl.open(file, { lazyEntries: true, autoClose: false }, (error, zip) => {
+            if (error || !zip) {
                 console.log("yauzl init ERROR");
                 console.log(error);
                 reject(error);
                 return;
             }
 
-            zip.on("error", (erro: any) => {
+            zip.on("error", (erro) => {
                 console.log("yauzl ERROR");
                 console.log(erro);
                 reject(erro);
@@ -220,7 +220,7 @@ const zip2 = async (file: string): Promise<number[]> => {
             }
 
             zip.readEntry(); // next (lazyEntries)
-            zip.on("entry", async (zipEntry: any) => {
+            zip.on("entry", async (zipEntry) => {
                 // if (/\/$/.test(entry.fileName)) {
                 if (zipEntry.fileName[zipEntry.fileName.length - 1] === "/") {
                     // skip directories / folders
@@ -236,8 +236,8 @@ const zip2 = async (file: string): Promise<number[]> => {
 
                     if (READ_ZIP_STREAMS) {
                         const promize = new Promise((res, rej) => {
-                            zip.openReadStream(zipEntry, (err: any, stream: NodeJS.ReadableStream) => {
-                                if (err) {
+                            zip.openReadStream(zipEntry, (err, stream) => {
+                                if (err || !stream) {
                                     console.log(err);
                                     rej(err);
                                     return;

@@ -66,8 +66,8 @@ function injectObjectInZip(
     zipError: (e: any) => void,
     doneCallback: () => void) {
 
-    yauzl.open(destPathTMP, { lazyEntries: true, autoClose: false }, (err: any, zip: any) => {
-        if (err) {
+    yauzl.open(destPathTMP, { lazyEntries: true, autoClose: false }, (err, zip) => {
+        if (err || !zip) {
             debug("yauzl init ERROR");
             zipError(err);
             return;
@@ -75,13 +75,13 @@ function injectObjectInZip(
 
         const zipfile = new yazl.ZipFile();
 
-        zip.on("error", (erro: any) => {
+        zip.on("error", (erro) => {
             debug("yauzl ERROR");
             zipError(erro);
         });
 
         zip.readEntry(); // next (lazyEntries)
-        zip.on("entry", (entry: any) => {
+        zip.on("entry", (entry) => {
             // if (/\/$/.test(entry.fileName)) {
             if (entry.fileName[entry.fileName.length - 1] === "/") {
                 // skip directories / folders
@@ -90,8 +90,8 @@ function injectObjectInZip(
             } else {
                 // debug(entry.fileName);
                 // debug(entry);
-                zip.openReadStream(entry, (errz: any, stream: NodeJS.ReadableStream) => {
-                    if (err) {
+                zip.openReadStream(entry, (errz, stream) => {
+                    if (err || !stream) {
                         debug("yauzl openReadStream ERROR");
                         debug(errz);
                         zipError(errz);
@@ -130,7 +130,7 @@ function injectObjectInZip(
             destStream2.on("finish", () => {
                 doneCallback();
             });
-            destStream2.on("error", (ere: any) => {
+            destStream2.on("error", (ere) => {
                 zipError(ere);
             });
         });

@@ -9,7 +9,6 @@ import * as debug_ from "debug";
 import * as request from "request";
 import * as requestPromise from "request-promise-native";
 import { PassThrough } from "stream";
-import * as util from "util";
 import * as yauzl from "yauzl";
 
 import { bufferToStream, streamToBufferPromise } from "../stream/BufferUtils";
@@ -18,17 +17,28 @@ import { bufferToStream, streamToBufferPromise } from "../stream/BufferUtils";
 
 const debug = debug_("r2:utils#zip/zip2RandomAccessReader_Http");
 
-export interface RandomAccessReader {
-    _readStreamForRange(start: number, end: number): void;
-}
-export class HttpZipReader implements RandomAccessReader {
+// import * as util from "util";
+// export interface RandomAccessReader {
+//     _readStreamForRange(start: number, end: number): void;
+// }
+
+// YAUZL:
+// export abstract class RandomAccessReader extends EventEmitter {
+//     _readStreamForRange(start: number, end: number): void;
+//     createReadStream(options: { start: number; end: number }): void;
+//     read(buffer: Buffer, offset: number, length: number, position: number, callback: (err?: Error) => void): void;
+//     close(callback: (err?: Error) => void): void;
+// }
+
+export class HttpZipReader extends yauzl.RandomAccessReader {
 
     private firstBuffer: Buffer | undefined = undefined;
     private firstBufferStart: number = 0;
     private firstBufferEnd: number = 0;
 
     constructor(readonly url: string, readonly byteLength: number) {
-        yauzl.RandomAccessReader.call(this);
+        super();
+        // yauzl.RandomAccessReader.call(this);
     }
 
     public _readStreamForRange(start: number, end: number) {
@@ -46,7 +56,7 @@ export class HttpZipReader implements RandomAccessReader {
 
         if (this.firstBuffer && start >= this.firstBufferStart && end <= this.firstBufferEnd) {
 
-            // console.log(`HTTP CACHE ${this.url}: ${start}-${end} (${length}) [${this.byteLength}]`);
+            // debug(`HTTP CACHE ${this.url}: ${start}-${end} (${length}) [${this.byteLength}]`);
 
             const begin = start - this.firstBufferStart;
             const stop = end - this.firstBufferStart;
@@ -59,7 +69,7 @@ export class HttpZipReader implements RandomAccessReader {
         const lastByteIndex = end - 1;
         const range = `${start}-${lastByteIndex}`;
 
-        // console.log(`HTTP GET ${this.url}: ${start}-${end} (${length}) [${this.byteLength}]`);
+        // debug(`HTTP GET ${this.url}: ${start}-${end} (${length}) [${this.byteLength}]`);
 
         const failure = (err: any) => {
             debug(err);
@@ -93,7 +103,7 @@ export class HttpZipReader implements RandomAccessReader {
                     stream.end();
                     return;
                 }
-                // debug(`streamToBufferPromise: ${buffer.length}`);
+                debug(`streamToBufferPromise: ${buffer.length}`);
 
                 this.firstBuffer = buffer;
                 this.firstBufferStart = start;
@@ -135,9 +145,9 @@ export class HttpZipReader implements RandomAccessReader {
                 await success(res);
             })()
                 // .then(() => {
-                //     console.log("done");
+                //     debug("done");
                 // }).catch((err) => {
-                //     console.log(err);
+                //     debug(err);
                 // })
                 ;
         }
@@ -145,7 +155,7 @@ export class HttpZipReader implements RandomAccessReader {
         return stream;
     }
 }
-util.inherits(HttpZipReader, yauzl.RandomAccessReader);
+// util.inherits(HttpZipReader, yauzl.RandomAccessReader);
 
 // // tslint:disable-next-line:space-before-function-paren
 // HttpZipReader.prototype._readStreamForRange = function (start: number, end: number) {
