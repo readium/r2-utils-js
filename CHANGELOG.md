@@ -1,10 +1,29 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.15...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.16...develop
 
 Changes:
 * TODO
+
+# 1.0.16
+
+> Build environment: NodeJS `12.13.0`, NPM `6.12.0`
+
+Changes:
+* CLI utility to benchmark ZIP libs with CRC and directory entry streaming
+* YAUZL and YAZL TypeScript typings (no more "any")
+* NPM updates
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.16/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.16/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.16
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.15...v1.0.16
 
 # 1.0.15
 
