@@ -477,6 +477,11 @@ async function processFile(file: string) {
             crcsPreviousIteration = crcs;
         }
         (zip as any).CRCs = crcsPreviousIteration;
+
+        if (!VERBOSE) {
+            console.log(`\n`);
+        }
+
     }
 
     let crcsPreviousZip: number[] | undefined;
