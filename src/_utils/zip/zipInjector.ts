@@ -108,6 +108,10 @@ function injectObjectInZip(
         zip.on("end", () => {
             debug("yauzl END");
 
+            process.nextTick(() => {
+                zip.close(); // not autoClose
+            });
+
             if (typeOfContentsToInject === InjectType.FILE) {
                 zipfile.addFile(contentsToInject as string, zipEntryPath);
 
