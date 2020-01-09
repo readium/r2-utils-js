@@ -88,9 +88,10 @@ export async function streamToBufferPromise_READABLE(readStream: NodeJS.Readable
             // readStream.removeListener("end", handleEnd);
         };
 
-        const handleError = () => {
+        const handleError = (e: any) => {
+            console.log(e);
             cleanup();
-            reject();
+            reject(e);
         };
         readStream.on("error", handleError);
 
@@ -139,9 +140,10 @@ export async function streamToBufferPromise(readStream: NodeJS.ReadableStream): 
             readStream.removeListener("end", handleEnd);
         };
 
-        const handleError = () => {
+        const handleError = (e: any) => {
+            console.log(e);
             cleanup();
-            reject();
+            reject(e);
         };
         readStream.on("error", handleError);
 
