@@ -1,6 +1,6 @@
 {
   "name": "r2-utils-js",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Readium 2 'utils' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
@@ -47,28 +47,28 @@
   "homepage": "https://github.com/readium/r2-utils-js",
   "dependencies": {
     "debug": "^4.1.1",
-    "filehound": "^1.17.3",
+    "filehound": "^1.17.4",
     "node-stream-zip": "^1.9.1",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "ta-json-x": "^2.5.2",
-    "tslib": "^1.10.0",
-    "unzipper": "^0.10.8",
+    "tslib": "^1.11.1",
+    "unzipper": "^0.10.10",
     "xpath": "^0.0.27",
     "yauzl": "^2.10.0",
     "yazl": "^2.5.1"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "@types/node": "^12.12.27",
+    "@types/node": "^12.12.32",
     "@types/request": "^2.48.4",
     "@types/request-promise-native": "^1.0.17",
     "@types/yauzl": "^2.9.1",
     "@types/yazl": "^2.4.2",
-    "cpy-cli": "^3.0.0",
-    "cross-env": "^7.0.0",
-    "cson": "^6.9.0",
+    "cpy-cli": "^3.1.0",
+    "cross-env": "^7.0.2",
+    "cson": "^7.0.0",
     "eclint": "^2.8.1",
     "git-rev-sync": "^2.0.0",
     "json": "^9.0.6",
@@ -76,7 +76,7 @@
     "rimraf": "^3.0.2",
     "tslint": "^5.20.1",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.3"
   },
   "main": "dist/es6-es2015/src/_utils/perf-cli.js",
   "types": "dist/es6-es2015/src/_utils/perf-cli.d.js",
