@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.19...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.20...develop
 
 Changes:
 * TODO
+
+# 1.0.20
+
+> Build environment: NodeJS `12.16.1`, NPM `6.14.4`
+
+Changes:
+* NPM package updates
+* Fixed CSON-2-JSON script
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.20/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.20/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.20
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.19...v1.0.20
 
 # 1.0.19
 
