@@ -16,8 +16,10 @@ import * as path from "path";
 
 import * as filehound from "filehound";
 
+import { Stream } from "stream";
+
 // ZIP 1
-import * as StreamZip from "node-stream-zip";
+import StreamZip = require("node-stream-zip");
 
 // ZIP 2
 import * as yauzl from "yauzl";
@@ -158,14 +160,14 @@ const zip1 = async (file: string): Promise<number[]> => {
                         continue;
                     }
                     const promize = new Promise((res, rej) => {
-                        zip.stream(zipEntry.name, async (err: any, stream: NodeJS.ReadableStream) => {
+                        zip.stream(zipEntry.name, async (err: any, stream: Stream | undefined) => {
                             if (err) {
                                 console.log(err);
                                 rej(err);
                                 return;
                             }
                             // stream.pipe(process.stdout);
-                            const totalBytes = streamReadAll(stream);
+                            const totalBytes = streamReadAll(stream as NodeJS.ReadableStream);
                             process.nextTick(() => {
                                 res(totalBytes);
                             });

@@ -6,7 +6,7 @@
 // ==LICENSE-END==
 
 import * as debug_ from "debug";
-import * as StreamZip from "node-stream-zip";
+import StreamZip = require("node-stream-zip");
 
 import { IStreamAndLength, IZip, Zip } from "./zip";
 
