@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.22...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.23...develop
 
 Changes:
 * TODO
+
+# 1.0.23
+
+> Build environment: NodeJS `12.18.2`, NPM `6.14.5`
+
+Changes:
+* NPM package updates
+* TypeScript const enum safeguard (isolated modules)
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.23/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.23/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.23
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.22...v1.0.23
 
 # 1.0.22
 

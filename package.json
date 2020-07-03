@@ -1,6 +1,6 @@
 {
   "name": "r2-utils-js",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "Readium 2 'utils' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
@@ -68,7 +68,7 @@
     "@types/yazl": "^2.4.2",
     "cpy-cli": "^3.1.1",
     "cross-env": "^7.0.2",
-    "cson": "^7.12.0",
+    "cson": "^7.15.0",
     "eclint": "^2.8.1",
     "git-rev-sync": "^2.0.0",
     "json": "^9.0.6",
@@ -76,7 +76,7 @@
     "rimraf": "^3.0.2",
     "tslint": "^5.20.1",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.6"
   },
   "main": "dist/es6-es2015/src/_utils/perf-cli.js",
   "types": "dist/es6-es2015/src/_utils/perf-cli.d.js",
