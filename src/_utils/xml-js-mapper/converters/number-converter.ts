@@ -7,14 +7,15 @@
 
 import { IPropertyConverter } from "./converter";
 
-export class DateConverter implements IPropertyConverter {
-    public serialize(property: Date | undefined): string {
-        return property ? property.toISOString() : "Invalid Date";
+export class NumberConverter implements IPropertyConverter {
+    public serialize(property: number | string): string {
+        // parseFloat() vs. Number()
+        return (typeof property === "string") ? property : property.toString();
     }
 
-    public deserialize(value: string): Date | undefined {
-        const date = new Date(value);
-        return isNaN(date.getTime()) ? undefined : date;
+    public deserialize(value: string): number {
+        // return (typeof value === "string") ? Number(value) : value;
+        return Number(value);
     }
 
     // public collapseArrayWithSingleItem(): boolean {
