@@ -88,7 +88,7 @@ export class ZipExplodedHTTP extends Zip {
             const needsStreamingResponse = true;
 
             if (needsStreamingResponse) {
-                const promise = new Promise((resolve, reject) => {
+                const promise = new Promise<void>((resolve, reject) => {
                     request.get({
                         headers: {},
                         method: "HEAD",
@@ -208,7 +208,7 @@ export class ZipExplodedHTTP extends Zip {
             const needsStreamingResponse = true;
 
             if (needsStreamingResponse) {
-                const promise = new Promise((resolve, reject) => {
+                const promise = new Promise<void>((resolve, reject) => {
                     request.get({
                         headers: {},
                         method: "GET",
