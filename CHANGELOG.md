@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.23...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.24...develop
 
 Changes:
 * TODO
+
+# 1.0.24
+
+> Build environment: NodeJS `14.15.1`, NPM `6.14.9`
+
+Changes:
+* NPM package updates
+* Fix: added missing Number converter in XML declarative parser (similar to TA-JSON)
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.24/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.24/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.24
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.23...v1.0.24
 
 # 1.0.23
 
