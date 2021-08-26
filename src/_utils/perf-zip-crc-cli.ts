@@ -14,8 +14,6 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import * as filehound from "filehound";
-
 import { Stream } from "stream";
 
 // ZIP 1
@@ -26,6 +24,8 @@ import * as yauzl from "yauzl";
 
 // ZIP 3
 import * as unzipper from "unzipper";
+
+// import * as filehound from "filehound";
 
 console.log("process.cwd():");
 console.log(process.cwd());
@@ -561,13 +561,15 @@ if (stats.isDirectory()) {
 
     // tslint:disable-next-line:no-floating-promises
     (async () => {
-        const files: string[] = await filehound.create()
-            // .discard("node_modules")
-            // .depth(5)
-            .paths(filePath)
-            .ext([".epub", ".epub3", ".cbz", ".zip"])
-            // .directory()
-            .find();
+        // const files: string[] = await filehound.create()
+        //     // .discard("node_modules")
+        //     // .depth(5)
+        //     .paths(filePath)
+        //     .ext([".epub", ".epub3", ".cbz", ".zip"])
+        //     // .directory()
+        //     .find();
+        const files = fs.readdirSync(filePath, { withFileTypes: true }).
+            filter((f) => f.isFile() && /\.(epub3?)|(zip)|(cbz)$/.test(f.name)).map((f) => path.join(filePath, f.name));
 
         for (const file of files) {
             await processFile(file);

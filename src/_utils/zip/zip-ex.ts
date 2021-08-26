@@ -6,12 +6,12 @@
 // ==LICENSE-END==
 
 import * as debug_ from "debug";
-import * as filehound from "filehound";
 import * as fs from "fs";
 import * as path from "path";
 
 import { IStreamAndLength, IZip, Zip } from "./zip";
 
+// import * as filehound from "filehound";
 // import { bufferToStream } from "../stream/BufferUtils";
 
 const debug = debug_("r2:utils#zip/zip-ex");
@@ -49,12 +49,15 @@ export class ZipExploded extends Zip {
 
             const dirPathNormalized = fs.realpathSync(this.dirPath);
 
-            const files: string[] = await filehound.create()
-                // .discard("node_modules")
-                // .depth(5)
-                .paths(this.dirPath)
-                // .ext([".epub", ".epub3", ".cbz"])
-                .find();
+            // const files: string[] = await filehound.create()
+            //     // .discard("node_modules")
+            //     // .depth(5)
+            //     .paths(this.dirPath)
+            //     // .ext([".epub", ".epub3", ".cbz"])
+            //     .find();
+            const files = fs.readdirSync(this.dirPath, { withFileTypes: true }).
+                filter((f) => f.isFile() &&
+                    /\.(epub3?)|(zip)|(cbz)$/.test(f.name)).map((f) => path.join(this.dirPath, f.name));
 
             const adjustedFiles = files.map((file) => {
                 const filePathNormalized = fs.realpathSync(file);
