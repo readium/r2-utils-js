@@ -1,10 +1,29 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.26...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.27...develop
 
 Changes:
 * TODO
+
+# 1.0.27
+
+> Build environment: NodeJS `14.18.1`, NPM `6.14.15`
+
+Changes:
+* NPM package updates
+* NodeJS v12 minimum requirement
+* Removed FileHound lib dependency in TypeScript code
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.27/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.27/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.27
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.26...v1.0.27
 
 # 1.0.26
 

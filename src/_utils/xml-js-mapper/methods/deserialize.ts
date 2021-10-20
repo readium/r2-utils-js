@@ -216,7 +216,8 @@ function deserializeRootObject(
                                     if ((childNode as Element).localName !== item.localName) {
                                         continue;
                                     }
-                                    if (item.namespaceUri && item.namespaceUri !== childNode.namespaceURI) {
+                                    if (item.namespaceUri &&
+                                        item.namespaceUri !== (childNode as Element).namespaceURI) {
                                         continue;
                                     }
 
