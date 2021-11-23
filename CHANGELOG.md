@@ -1,10 +1,27 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.27...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.28...develop
 
 Changes:
 * TODO
+
+# 1.0.28
+
+> Build environment: NodeJS `16.13.0`, NPM `8.1.4`
+
+Changes:
+* Fix: regression bug when replacing filehound with plain NodeJS "fs" API to scan directory contents (ZIP directory emulated from filesystem)
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.28/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.28/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.28
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.27...v1.0.28
 
 # 1.0.27
 
