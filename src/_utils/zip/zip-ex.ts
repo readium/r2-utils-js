@@ -56,8 +56,7 @@ export class ZipExploded extends Zip {
             //     // .ext([".epub", ".epub3", ".cbz"])
             //     .find();
             const files = fs.readdirSync(this.dirPath, { withFileTypes: true }).
-                filter((f) => f.isFile() &&
-                    /\.(epub3?)|(zip)|(cbz)$/.test(f.name)).map((f) => path.join(this.dirPath, f.name));
+                filter((f) => f.isFile()).map((f) => path.join(this.dirPath, f.name));
 
             const adjustedFiles = files.map((file) => {
                 const filePathNormalized = fs.realpathSync(file);
@@ -72,6 +71,7 @@ export class ZipExploded extends Zip {
 
                 return relativeFilePath;
             });
+
             resolve(adjustedFiles);
         });
     }

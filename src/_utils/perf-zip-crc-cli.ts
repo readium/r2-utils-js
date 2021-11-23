@@ -569,7 +569,9 @@ if (stats.isDirectory()) {
         //     // .directory()
         //     .find();
         const files = fs.readdirSync(filePath, { withFileTypes: true }).
-            filter((f) => f.isFile() && /\.(epub3?)|(zip)|(cbz)$/.test(f.name)).map((f) => path.join(filePath, f.name));
+            filter((f) => f.isFile() &&
+                /(\.epub3?)|(\.zip)|(\.cbz)$/.test(f.name)).
+            map((f) => path.join(filePath, f.name));
 
         for (const file of files) {
             await processFile(file);
