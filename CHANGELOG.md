@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.28...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.29...develop
 
 Changes:
 * TODO
+
+# 1.0.29
+
+> Build environment: NodeJS `16.13.0`, NPM `8.1.4`
+
+Changes:
+* Removed console verbose output in filesystem folder zip emulation
+* Harmonised regular expressions for file extensions and HTTP URLs checks
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.29/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.29/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.29
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.28...v1.0.29
 
 # 1.0.28
 
