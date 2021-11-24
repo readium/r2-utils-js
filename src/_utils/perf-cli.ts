@@ -52,7 +52,7 @@ if (!stats.isFile() && !stats.isDirectory()) {
 }
 
 const fileName = path.basename(filePath);
-const ext = path.extname(fileName).toLowerCase();
+const ext = path.extname(fileName);
 
 if (stats.isDirectory()) {
     // tslint:disable-next-line:no-floating-promises
@@ -78,13 +78,13 @@ if (stats.isDirectory()) {
                 return;
             }
 
-            if (entryName.endsWith(".css")) {
+            if (/\.css$/i.test(entryName)) {
                 const str = zipData.toString("utf8");
                 console.log(str);
             }
         }
     })();
-} else if (/\.epub[3]?$/.test(ext) || ext === ".cbz" || ext === ".zip") {
+} else if (/((\.epub3?)|(\.cbz)|(\.zip))$/i.test(ext)) {
     // tslint:disable-next-line:no-floating-promises
     (async () => {
         const time3 = process.hrtime();

@@ -9,7 +9,7 @@ import * as path from "path";
 import * as querystring from "querystring";
 
 export function isHTTP(urlOrPath: string): boolean {
-    return /^http[s]?:\/\//.test(urlOrPath);
+    return /^https?:\/\//.test(urlOrPath);
 }
 
 export function encodeURIComponent_RFC3986(str: string): string {
