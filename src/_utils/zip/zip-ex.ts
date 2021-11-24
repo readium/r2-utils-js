@@ -62,7 +62,7 @@ export class ZipExploded extends Zip {
                 const filePathNormalized = fs.realpathSync(file);
 
                 let relativeFilePath = filePathNormalized.replace(dirPathNormalized, "");
-                debug(relativeFilePath);
+                // debug(relativeFilePath);
 
                 // TODO: is this necessary?
                 if (relativeFilePath.indexOf("/") === 0) {
