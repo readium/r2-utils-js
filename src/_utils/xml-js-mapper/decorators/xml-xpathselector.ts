@@ -11,6 +11,7 @@ import { getDefinition } from "../classes/object-definition";
 import { IXPathSelectorItem, IXmlNamespaces } from "../types";
 
 export function XmlXPathSelector(selector: string, namespaces?: IXmlNamespaces) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (target: any, key: string): void => {
         const objectType = Reflect.getMetadata("design:type", target, key);
 

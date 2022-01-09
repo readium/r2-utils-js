@@ -23,6 +23,7 @@ export function injectStreamInZip(
     destPathFINAL: string,
     stream: NodeJS.ReadableStream,
     zipEntryPath: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     zipError: (e: any) => void,
     doneCallback: () => void) {
 
@@ -36,6 +37,7 @@ export function injectBufferInZip(
     destPathFINAL: string,
     buffer: Buffer,
     zipEntryPath: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     zipError: (e: any) => void,
     doneCallback: () => void) {
 
@@ -49,6 +51,7 @@ export function injectFileInZip(
     destPathFINAL: string,
     filePath: string,
     zipEntryPath: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     zipError: (e: any) => void,
     doneCallback: () => void) {
 
@@ -60,9 +63,11 @@ export function injectFileInZip(
 function injectObjectInZip(
     destPathTMP: string,
     destPathFINAL: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     contentsToInject: any,
     typeOfContentsToInject: InjectType,
     zipEntryPath: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     zipError: (e: any) => void,
     doneCallback: () => void) {
 

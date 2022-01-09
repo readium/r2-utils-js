@@ -5,6 +5,7 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface IStringKeyedObject { [key: string]: any; }
 
 export function isNullOrUndefined<T>(val: T | undefined | null): val is T {
@@ -16,6 +17,7 @@ export function isNullOrUndefined<T>(val: T | undefined | null): val is T {
     return val === undefined || val === null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function sortObject(obj: any): any {
     if (obj === null) {
         return null;
@@ -39,7 +41,9 @@ export function sortObject(obj: any): any {
 }
 
 function traverseJsonObjects_(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     parent: any, keyInParent: any, obj: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     func: (item: any, parent: any, keyInParent: any) => void) {
 
     func(obj, parent, keyInParent);
@@ -64,7 +68,9 @@ function traverseJsonObjects_(
 }
 
 export function traverseJsonObjects(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     obj: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     func: (item: any, parent: any, keyInParent: any) => void) {
 
     traverseJsonObjects_(undefined, undefined, obj, func);

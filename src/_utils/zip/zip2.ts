@@ -17,6 +17,7 @@ import { HttpZipReader } from "./zip2RandomAccessReader_Http";
 
 const debug = debug_("r2:utils#zip/zip2");
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface IStringKeyedObject { [key: string]: any; }
 
 export class Zip2 extends Zip {
@@ -75,6 +76,7 @@ export class Zip2 extends Zip {
 
         return new Promise<IZip>(async (resolve, reject) => {
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const failure = (err: any) => {
                 debug(err);
                 reject(err);
@@ -117,6 +119,7 @@ export class Zip2 extends Zip {
                     }
                     debug("Downloading: " + filePath);
 
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const failure_ = (err: any) => {
 
                         debug(err);
@@ -218,9 +221,11 @@ export class Zip2 extends Zip {
                             reject(err);
                             return;
                         }
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         (zip as any).httpZipReader = httpZipReader;
                         const zip2 = new Zip2(filePath, zip);
 
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         zip.on("error", (erro: any) => {
                             debug("yauzl ERROR");
                             debug(erro);
@@ -228,6 +233,7 @@ export class Zip2 extends Zip {
                         });
 
                         zip.readEntry(); // next (lazyEntries)
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         zip.on("entry", (entry: any) => {
                             if (entry.fileName[entry.fileName.length - 1] === "/") {
                                 // skip directories / folders
@@ -281,6 +287,7 @@ export class Zip2 extends Zip {
 
     private entries: IStringKeyedObject;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private constructor(readonly filePath: string, readonly zip: any) {
         super();
 
@@ -327,6 +334,7 @@ export class Zip2 extends Zip {
 
         return new Promise<IStreamAndLength>((resolve, reject) => {
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             this.zip.openReadStream(entry, (err: any, stream: NodeJS.ReadableStream) => {
                 if (err) {
                     debug("yauzl openReadStream ERROR");
@@ -346,6 +354,7 @@ export class Zip2 extends Zip {
         });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private addEntry(entry: any) {
         this.entries[entry.fileName] = entry;
     }

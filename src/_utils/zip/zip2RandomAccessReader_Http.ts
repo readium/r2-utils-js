@@ -33,8 +33,8 @@ const debug = debug_("r2:utils#zip/zip2RandomAccessReader_Http");
 export class HttpZipReader extends yauzl.RandomAccessReader {
 
     private firstBuffer: Buffer | undefined = undefined;
-    private firstBufferStart: number = 0;
-    private firstBufferEnd: number = 0;
+    private firstBufferStart = 0;
+    private firstBufferEnd = 0;
 
     constructor(readonly url: string, readonly byteLength: number) {
         super();
@@ -71,6 +71,7 @@ export class HttpZipReader extends yauzl.RandomAccessReader {
 
         // debug(`HTTP GET ${this.url}: ${start}-${end} (${length}) [${this.byteLength}]`);
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const failure = (err: any) => {
             debug(err);
             // this.stream.end();

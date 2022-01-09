@@ -14,6 +14,7 @@ import { IStreamAndLength, IZip, Zip } from "./zip";
 
 const debug = debug_("r2:utils#zip/zip3");
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface IStringKeyedObject { [key: string]: any; }
 
 export class Zip3 extends Zip {
@@ -24,6 +25,7 @@ export class Zip3 extends Zip {
         }
 
         return new Promise<IZip>(async (resolve, reject) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             let zip: any;
             try {
                 zip = await unzipper.Open.file(filePath);
@@ -40,6 +42,7 @@ export class Zip3 extends Zip {
     private static async loadPromiseHTTP(filePath: string): Promise<IZip> {
 
         return new Promise<IZip>(async (resolve, reject) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             let zip: any;
             try {
                 zip = await unzipper.Open.url(request.get,
@@ -61,10 +64,12 @@ export class Zip3 extends Zip {
 
     private entries: IStringKeyedObject;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private constructor(readonly filePath: string, readonly zip: any) {
         super();
 
         this.entries = {};
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.zip.files.forEach((file: any) => {
             this.entries[file.path] = file;
         });

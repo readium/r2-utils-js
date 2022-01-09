@@ -85,6 +85,7 @@ async function streamReadAll(readStream: NodeJS.ReadableStream): Promise<number>
             readStream.removeListener("end", handleEnd);
         };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handleError = (err: any) => {
             cleanup();
             reject(err);
@@ -112,6 +113,7 @@ const zip1 = async (file: string): Promise<number[]> => {
             storeEntries: true,
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         zip.on("error", (err: any) => {
             console.log("--ZIP error: " + filePath);
             console.log(err);
@@ -119,11 +121,13 @@ const zip1 = async (file: string): Promise<number[]> => {
             reject(err);
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         zip.on("entry", (_entry: any) => {
             // console.log("--ZIP: entry");
             // console.log(entry.name);
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         zip.on("extract", (entry: any, f: any) => {
             console.log("--ZIP extract:");
             console.log(entry.name);
@@ -134,8 +138,10 @@ const zip1 = async (file: string): Promise<number[]> => {
             // console.log("--ZIP: ready");
             // console.log(zip.entriesCount);
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const zipEntries = Object.values(zip.entries()) as any[];
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const crcs = zipEntries.map((zipEntry: any) => {
                 // if (/\/$/.test(zipEntry.name)) {
                 if (zipEntry.isDirectory) { // zipEntry.name[zipEntry.name.length - 1] === "/"
@@ -160,6 +166,7 @@ const zip1 = async (file: string): Promise<number[]> => {
                         continue;
                     }
                     const promize = new Promise((res, rej) => {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         zip.stream(zipEntry.name, async (err: any, stream: Stream | undefined) => {
                             if (err) {
                                 console.log(err);
@@ -198,6 +205,7 @@ const zip1 = async (file: string): Promise<number[]> => {
         });
     });
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (zip1 as any).zipName = "node-stream-zip";
 
 const zip2 = async (file: string): Promise<number[]> => {
@@ -295,6 +303,7 @@ const zip2 = async (file: string): Promise<number[]> => {
         });
     });
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (zip2 as any).zipName = "yauzl";
 
 // <<< UNZIPPER_BUG
@@ -305,11 +314,13 @@ const zip2 = async (file: string): Promise<number[]> => {
 // Emitted 'error' event at:
 // at lazyFs.read (internal/fs/streams.js:165:12)
 // at FSReqWrap.wrapper [as oncomplete] (fs.js:467:17)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const streams: any = {};
 // >>> UNZIPPER_BUG
 
 const zip3 = async (file: string): Promise<number[]> => {
     return new Promise<number[]>(async (resolve, reject) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let zip: any;
         try {
             zip = await unzipper.Open.file(file);
@@ -318,6 +329,7 @@ const zip3 = async (file: string): Promise<number[]> => {
             reject(err);
             return;
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const crcs = zip.files.map((zipEntry: any) => {
             // if (/\/$/.test(zipEntry.path)) {
             if (zipEntry.type === "Directory") { // zipEntry.path[zipEntry.path.length - 1] === "/")
@@ -345,6 +357,7 @@ const zip3 = async (file: string): Promise<number[]> => {
                 const stream = zipEntry.stream();
 
                 // <<< UNZIPPER_BUG
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 stream.on("error", (err: any) => {
                     console.log("err1");
                     console.log(err);
@@ -408,16 +421,17 @@ const zip3 = async (file: string): Promise<number[]> => {
         resolve(crcs);
     });
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (zip3 as any).zipName = "unzipper";
 
 const zips = READ_ZIP_STREAMS ? [zip1, zip2] : // <<< UNZIPPER_BUG
     [zip1, zip2, zip3];
 
 async function processFile(file: string) {
-    console.log(`=====================================`);
+    console.log("=====================================");
     if (!UNVERBOSE) {
         console.log(`${file}`);
-        console.log(`=====================================`);
+        console.log("=====================================");
     }
 
     let winner = 0;
@@ -427,10 +441,11 @@ async function processFile(file: string) {
     for (const zip of zips) {
         iZip++;
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (zip as any).minNano = Number.MAX_SAFE_INTEGER;
 
         if (VERBOSE) {
-            console.log(`-------------------------------`);
+            console.log("-------------------------------");
         }
 
         let crcsPreviousIteration: number[] | undefined;
@@ -448,7 +463,9 @@ async function processFile(file: string) {
             // });
 
             const nanos = diffTime[0] * 1e9 + diffTime[1];
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             if (nanos < (zip as any).minNano) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (zip as any).minNano = nanos;
             }
             if (nanos < minNanoOverall) {
@@ -478,10 +495,11 @@ async function processFile(file: string) {
             }
             crcsPreviousIteration = crcs;
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (zip as any).CRCs = crcsPreviousIteration;
 
         if (!VERBOSE) {
-            console.log(`\n`);
+            console.log("\n");
         }
 
     }
@@ -489,8 +507,10 @@ async function processFile(file: string) {
     let crcsPreviousZip: number[] | undefined;
     let isDiff = false;
     for (const zip of zips) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (crcsPreviousZip && (zip as any).CRCs) {
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             isDiff = !sameArrays(crcsPreviousZip, (zip as any).CRCs);
             // if (crcsPreviousZip.length !== (zip as any).CRCs.length) {
             //     isDiff = true;
@@ -507,16 +527,19 @@ async function processFile(file: string) {
                 break;
             }
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         crcsPreviousZip = (zip as any).CRCs;
     }
     if (isDiff) {
-        console.log(`CRC DIFF! ##############################################`);
+        console.log("CRC DIFF! ##############################################");
         iZip = 0;
         for (const zip of zips) {
             iZip++;
-            console.log(`==========================`);
+            console.log("==========================");
             console.log(`++++ Zip ${iZip} CRC:`);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             console.log(`-- ${(zip as any).CRCs.length}:`);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             console.log(JSON.stringify((zip as any).CRCs));
         }
 
@@ -528,16 +551,18 @@ async function processFile(file: string) {
                     continue;
                 }
                 const zip_ = zips[k];
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 if (!sameArrays((zip as any).CRCs, (zip_ as any).CRCs)) {
                     nDiffs++;
                 }
             }
             if (nDiffs === (zips.length - 1)) {
-                console.log(`####################################`);
-                console.log(`####################################`);
+                console.log("####################################");
+                console.log("####################################");
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 console.log(`SUSPECT ====> Zip ${j + 1} (${(zip as any).zipName})`);
-                console.log(`####################################`);
-                console.log(`####################################`);
+                console.log("####################################");
+                console.log("####################################");
             }
         }
 
@@ -545,7 +570,7 @@ async function processFile(file: string) {
     }
 
     if (VERBOSE) {
-        console.log(`=====================================`);
+        console.log("=====================================");
     }
 
     iZip = 0;
@@ -553,6 +578,7 @@ async function processFile(file: string) {
         iZip++;
         const won = iZip === winner;
         // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         console.log(`${won ? ">>" : "--"} Zip ${iZip} (${(zip as any).zipName}) => ${(zip as any).minNano.toLocaleString()} nanoseconds ${won ? " [ WINNER ]" : `[ +${((zip as any).minNano - minNanoOverall).toLocaleString()} ]`}`);
     }
 }

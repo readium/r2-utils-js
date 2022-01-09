@@ -88,6 +88,7 @@ export async function streamToBufferPromise_READABLE(readStream: NodeJS.Readable
             // readStream.removeListener("end", handleEnd);
         };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handleError = (e: any) => {
             console.log(e);
             cleanup();
@@ -140,6 +141,7 @@ export async function streamToBufferPromise(readStream: NodeJS.ReadableStream): 
             readStream.removeListener("end", handleEnd);
         };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handleError = (e: any) => {
             console.log(e);
             cleanup();

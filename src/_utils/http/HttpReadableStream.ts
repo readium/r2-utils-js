@@ -46,6 +46,7 @@ export class HttpReadableStream extends Readable {
             return;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const failure = (err: any) => {
             debug(err);
             this.push(null);

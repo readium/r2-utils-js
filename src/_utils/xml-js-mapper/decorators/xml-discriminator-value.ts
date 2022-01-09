@@ -8,6 +8,7 @@
 import { getDefinition } from "../classes/object-definition";
 import { FunctionType } from "../types";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function XmlDiscriminatorValue(value: any) {
     return (objectType: FunctionType): void => {
         getDefinition(objectType).discriminatorValue = value;

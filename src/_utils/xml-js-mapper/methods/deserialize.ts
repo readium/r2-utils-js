@@ -17,6 +17,7 @@ import { FunctionType, IDynamicObject, IParseOptions } from "../types";
 export function deserialize(
     objectInstance: Node,
     objectType: FunctionType | undefined,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: IParseOptions = { runConstructor: false }): any {
 
     // if (objectInstance && objectInstance.constructor === Array) {
@@ -29,6 +30,7 @@ export function deserialize(
 function deserializeRootObject(
     objectInstance: Node,
     objectType: FunctionType = Object,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: IParseOptions): any {
 
     // // tslint:disable-next-line:no-string-literal
@@ -153,6 +155,7 @@ function deserializeRootObject(
                                         // console.log((textNode as Text).data);
 
                                         const obj = { data: toStringed, nodeType: 3 };
+                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                         // @ts-ignore:next-line
                                         textNode = obj;
 
@@ -182,6 +185,7 @@ function deserializeRootObject(
                                         // console.log((textNode as Text).data);
 
                                         const obj = { data: fullTxt, nodeType: 3 };
+                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                         // @ts-ignore:next-line
                                         textNode = obj;
 
@@ -350,6 +354,7 @@ function deserializeObject(
         || definition.objectType === Boolean
         || definition.objectType === Number;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const value: any =
         // objectInstance.nodeValue;
         objectInstance.nodeType === 3 ? // TEXT_NODE

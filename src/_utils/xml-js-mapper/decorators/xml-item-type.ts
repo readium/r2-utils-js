@@ -9,6 +9,7 @@ import { getDefinition } from "../classes/object-definition";
 import { FunctionType } from "../types";
 
 export function XmlItemType(objectType: FunctionType) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (target: any, key: string): void => {
         const property = getDefinition(target.constructor).getProperty(key);
 

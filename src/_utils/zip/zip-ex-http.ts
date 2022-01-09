@@ -59,6 +59,7 @@ export class ZipExplodedHTTP extends Zip {
 
         return new Promise(async (topresolve, _topreject) => {
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const failure = async (err: any) => {
                 debug(err);
                 // topreject(err);
@@ -98,6 +99,7 @@ export class ZipExplodedHTTP extends Zip {
                             await success(response);
                             resolve();
                         })
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .on("error", async (err: any) => {
                             await failure(err);
                             reject();
@@ -105,7 +107,7 @@ export class ZipExplodedHTTP extends Zip {
                 });
                 try {
                     await promise;
-                } catch (err) {
+                } catch (_err) {
                     // ignore
                 }
             } else {
@@ -149,6 +151,7 @@ export class ZipExplodedHTTP extends Zip {
 
         return new Promise(async (topresolve, topreject) => {
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const failure = async (err: any) => {
                 debug(err);
                 topreject(err);
@@ -218,6 +221,7 @@ export class ZipExplodedHTTP extends Zip {
                             await success(response);
                             resolve();
                         })
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .on("error", async (err: any) => {
                             await failure(err);
                             reject();
@@ -225,7 +229,7 @@ export class ZipExplodedHTTP extends Zip {
                 });
                 try {
                     await promise;
-                } catch (err) {
+                } catch (_err) {
                     // ignore
                 }
             } else {

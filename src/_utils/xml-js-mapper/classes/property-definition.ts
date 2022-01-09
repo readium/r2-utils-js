@@ -10,10 +10,10 @@ import { FunctionType, IXPathSelectorItem, IXmlNamespaces } from "../types";
 
 export class PropertyDefinition {
     public objectType: FunctionType | undefined;
-    public array: boolean = false;
-    public set: boolean = false;
-    public readonly: boolean = false;
-    public writeonly: boolean = false;
+    public array = false;
+    public set = false;
+    public readonly = false;
+    public writeonly = false;
     public converter: IPropertyConverter | undefined;
     public xpathSelector: string | undefined;
     public xpathSelectorParsed: IXPathSelectorItem[] | undefined;

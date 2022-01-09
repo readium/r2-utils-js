@@ -12,7 +12,9 @@ import { DateConverter } from "./date-converter";
 // import { NumberConverter } from "./number-converter";
 
 export interface IPropertyConverter {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     serialize(property: any): string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     deserialize(value: string): any;
 
     // collapseArrayWithSingleItem():boolean;

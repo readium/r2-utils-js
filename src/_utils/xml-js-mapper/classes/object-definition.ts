@@ -13,6 +13,7 @@ export class ObjectDefinition {
     public beforeDeserialized: () => void;
     public onDeserialized: () => void;
     public discriminatorProperty: string | undefined = undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public discriminatorValue: any = undefined;
     public properties: Map<string, PropertyDefinition>;
     public namespaces: IXmlNamespaces | undefined;
@@ -97,6 +98,7 @@ export function getTypedInheritanceChain(
             if (objectInstance
                 && parentDef
                 && parentDef.discriminatorProperty
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 && def.discriminatorValue === (objectInstance as any)[parentDef.discriminatorProperty]) {
                 if (def.hasOwnProperty("discriminatorProperty")) {
                     return getTypedInheritanceChain(objectType2, objectInstance);

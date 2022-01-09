@@ -14,12 +14,14 @@ import * as util from "util";
 
 const debug = debug_("r2:utils#ta-json-x/JsonPropertyEx");
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function inspect(obj: any) {
     // breakLength: 100  maxArrayLength: undefined
     console.log(util.inspect(obj,
         { showHidden: false, depth: 1000, colors: true, customInspect: true }));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function JsonPropertyEx(propertyName?: string): (target: any, key: string) => void {
 
     debug("JsonPropertyEx");
@@ -27,6 +29,7 @@ export function JsonPropertyEx(propertyName?: string): (target: any, key: string
     debug("propertyName");
     debug(propertyName);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (target: any, key: string): void => {
 
         debug("target");

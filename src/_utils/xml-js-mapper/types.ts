@@ -32,6 +32,7 @@ export interface IParameterlessConstructor<T> {
 
 export interface IDynamicObject {
     constructor: FunctionType;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [name: string]: any;
 }
 
@@ -39,6 +40,7 @@ export interface IParseOptions {
     runConstructor?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FunctionType = any;
 
 export interface IXmlNamespaces {

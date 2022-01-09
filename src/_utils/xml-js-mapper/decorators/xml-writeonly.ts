@@ -8,6 +8,7 @@
 import { getDefinition } from "../classes/object-definition";
 
 export function XmlWriteonly() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (target: any, key: string): void => {
         const property = getDefinition(target.constructor).getProperty(key);
 

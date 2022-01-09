@@ -25,6 +25,7 @@ export class Zip1 extends Zip {
                 storeEntries: true,
             });
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             zip.on("error", (err: any) => {
                 debug("--ZIP error: " + filePath);
                 debug(err);
@@ -32,11 +33,13 @@ export class Zip1 extends Zip {
                 reject(err);
             });
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             zip.on("entry", (_entry: any) => {
                 // console.log("--ZIP: entry");
                 // debug(entry.name);
             });
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             zip.on("extract", (entry: any, file: any) => {
                 debug("--ZIP extract:");
                 debug(entry.name);
@@ -55,6 +58,7 @@ export class Zip1 extends Zip {
         });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private constructor(readonly filePath: string, readonly zip: any) {
         super();
     }
@@ -106,6 +110,7 @@ export class Zip1 extends Zip {
 
         return new Promise<IStreamAndLength>((resolve, reject) => {
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             this.zip.stream(entryPath, (err: any, stream: NodeJS.ReadableStream) => {
                 if (err) {
                     reject(err);
