@@ -1,10 +1,27 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.29...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.30...develop
 
 Changes:
 * TODO
+
+# 1.0.30
+
+> Build environment: NodeJS `16.13.1`, NPM `8.3.0`
+
+Changes:
+* NPM package updates and migration from TSLINT to ESLINT
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.30/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.30/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.30
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.29...v1.0.30
 
 # 1.0.29
 
