@@ -188,7 +188,15 @@ export class Zip2 extends Zip {
                             method: "GET",
                             uri: filePath,
                         })
-                            .on("response", success_)
+                            .on("response", async (res) => {
+                                try {
+                                    await success_(res);
+                                }
+                                catch (successError) {
+                                    failure_(successError);
+                                    return;
+                                }
+                            })
                             .on("error", failure_);
                     } else {
                         let ress: requestPromise.FullResponse;
@@ -261,7 +269,15 @@ export class Zip2 extends Zip {
                     method: "HEAD",
                     uri: filePath,
                 })
-                    .on("response", success)
+                    .on("response", async (res) => {
+                        try {
+                            await success(res);
+                        }
+                        catch (successError) {
+                            failure(successError);
+                            return;
+                        }
+                    })
                     .on("error", failure);
             } else {
                 // TODO: instead of a HEAD request, if not supported then

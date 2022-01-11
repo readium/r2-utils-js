@@ -96,7 +96,13 @@ export class ZipExplodedHTTP extends Zip {
                         uri: urlStrEntry,
                     })
                         .on("response", async (response: request.RequestResponse) => {
-                            await success(response);
+                            try {
+                                await success(response);
+                            }
+                            catch (successError) {
+                                await failure(successError);
+                                return;
+                            }
                             resolve();
                         })
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -218,7 +224,13 @@ export class ZipExplodedHTTP extends Zip {
                         uri: urlStrEntry,
                     })
                         .on("response", async (response: request.RequestResponse) => {
-                            await success(response);
+                            try {
+                                await success(response);
+                            }
+                            catch (successError) {
+                                await failure(successError);
+                                return;
+                            }
                             resolve();
                         })
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any

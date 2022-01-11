@@ -90,7 +90,15 @@ export class HttpReadableStream extends Readable {
                 method: "GET",
                 uri: this.url,
             })
-                .on("response", success)
+                .on("response", async (res) => {
+                    try {
+                        await success(res);
+                    }
+                    catch (successError) {
+                        failure(successError);
+                        return;
+                    }
+                })
                 .on("error", failure);
         } else {
             (async () => {
