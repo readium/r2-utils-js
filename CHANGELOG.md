@@ -1,7 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.30...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.31...develop
+
+Changes:
+* TODO
+
+# 1.0.31
+
+> Build environment: NodeJS `16.13.1`, NPM `8.3.0`
+
+Changes:
+* NPM package updates
+* safeguard against callbacks that do not capture async / await thrown errors (exceptions do not automatically transit up the call chain) avoids UnhandledPromiseRejectionWarning
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.31/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.31/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.31
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.30...v1.0.31
 
 Changes:
 * TODO
