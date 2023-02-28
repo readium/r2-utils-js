@@ -13,13 +13,13 @@ const debug = debug_("r2:utils#stream/RangeStream");
 export class RangeStream extends Transform {
     private bytesReceived: number;
     private finished: boolean;
-    private closed: boolean;
+    private isClosed: boolean;
 
     constructor(readonly streamBegin: number, readonly streamEnd: number, readonly streamLength: number) {
         super();
         this.bytesReceived = 0;
         this.finished = false;
-        this.closed = false;
+        this.isClosed = false;
         this.on("end", () => {
             // debug("------ RangeStream END");
         });
@@ -38,9 +38,9 @@ export class RangeStream extends Transform {
         // debug(`_transform bytesReceived ${this.bytesReceived}`);
 
         if (this.finished) {
-            if (!this.closed) {
+            if (!this.isClosed) {
                 debug("???? CLOSING...");
-                this.closed = true;
+                this.isClosed = true;
                 this.push(null);
             } else {
                 debug("???? STILL PIPE CALLING _transform ??!");
@@ -66,7 +66,7 @@ export class RangeStream extends Transform {
 
                 if (this.finished) {
                     // debug("FINISHING...");
-                    this.closed = true;
+                    this.isClosed = true;
                     this.push(null);
                     this.end();
                 }
