@@ -64,8 +64,7 @@ export class ZipExploded extends Zip {
                 let relativeFilePath = filePathNormalized.replace(dirPathNormalized, "");
                 // debug(relativeFilePath);
 
-                // TODO: is this necessary?
-                if (relativeFilePath.indexOf("/") === 0) {
+                if (relativeFilePath.indexOf("/") === 0 || relativeFilePath.indexOf("\\") === 0) {
                     relativeFilePath = relativeFilePath.substr(1);
                 }
 
