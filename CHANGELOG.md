@@ -1,10 +1,27 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.37...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.38...develop
 
 Changes:
 * TODO
+
+# 1.0.38
+
+> Build environment: NodeJS `20.10.0`, NPM `10.2.5`
+
+Changes:
+* NPM (re)publish, previous package upload failed because of NPM breaking change (bug?): "files" array in package.json doesn't accept wildcard / glob pattern
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.38/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.38/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.38
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.37...v1.0.38
 
 # 1.0.37
 

@@ -1,6 +1,6 @@
 {
   "name": "r2-utils-js",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "Readium 2 'utils' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
@@ -87,8 +87,8 @@
     "LICENSE",
     "README.md",
     "CHANGELOG.md",
-    "docs/**/*",
-    "dist/**/*"
+    "docs",
+    "dist"
   ],
   "scripts": {
     "cson2json": "sed -E \"s/#ECMASCRIPT#/es5/g\" package-scripts-build.cson > tmp-build.cson && sed -E \"s/#ECMASCRIPT#/es6-es2015/g\" package-scripts-build.cson >> tmp-build.cson && sed -E \"s/#ECMASCRIPT#/es7-es2016/g\" package-scripts-build.cson >> tmp-build.cson && sed -E \"s/#ECMASCRIPT#/es8-es2017/g\" package-scripts-build.cson >> tmp-build.cson && json -I -f package.json -e \"this.scripts=$(cat package-scripts.cson tmp-build.cson | node node_modules/.bin/cson2json)\" && rimraf tmp-build.cson",
