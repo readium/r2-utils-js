@@ -14,8 +14,6 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { Stream } from "stream";
-
 // ZIP 1
 import StreamZip = require("node-stream-zip");
 
@@ -167,14 +165,14 @@ const zip1 = async (file: string): Promise<number[]> => {
                     }
                     const promize = new Promise((res, rej) => {
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        zip.stream(zipEntry.name, async (err: any, stream: Stream | undefined) => {
+                        zip.stream(zipEntry.name, async (err: any, stream: NodeJS.ReadableStream) => {
                             if (err) {
                                 console.log(err);
                                 rej(err);
                                 return;
                             }
                             // stream.pipe(process.stdout);
-                            const totalBytes = streamReadAll(stream as NodeJS.ReadableStream);
+                            const totalBytes = streamReadAll(stream);
                             process.nextTick(() => {
                                 res(totalBytes);
                             });
