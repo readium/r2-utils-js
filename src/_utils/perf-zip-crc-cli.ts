@@ -15,6 +15,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 // ZIP 1
+// eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-require-imports
 import StreamZip = require("node-stream-zip");
 
 // ZIP 2
@@ -86,6 +87,7 @@ async function streamReadAll(readStream: NodeJS.ReadableStream): Promise<number>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handleError = (err: any) => {
             cleanup();
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             reject(err);
         };
         readStream.on("error", handleError);
@@ -116,6 +118,7 @@ const zip1 = async (file: string): Promise<number[]> => {
             console.log("--ZIP error: " + filePath);
             console.log(err);
 
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             reject(err);
         });
 
@@ -168,6 +171,7 @@ const zip1 = async (file: string): Promise<number[]> => {
                         zip.stream(zipEntry.name, async (err: any, stream: NodeJS.ReadableStream) => {
                             if (err) {
                                 console.log(err);
+                                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                                 rej(err);
                                 return;
                             }
@@ -213,6 +217,7 @@ const zip2 = async (file: string): Promise<number[]> => {
             if (error || !zip) {
                 console.log("yauzl init ERROR");
                 console.log(error);
+                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 reject(error);
                 return;
             }
@@ -220,6 +225,7 @@ const zip2 = async (file: string): Promise<number[]> => {
             zip.on("error", (erro) => {
                 console.log("yauzl ERROR");
                 console.log(erro);
+                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 reject(erro);
             });
 
@@ -247,6 +253,7 @@ const zip2 = async (file: string): Promise<number[]> => {
                             zip.openReadStream(zipEntry, (err, stream) => {
                                 if (err || !stream) {
                                     console.log(err);
+                                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                                     rej(err);
                                     return;
                                 }
@@ -285,6 +292,7 @@ const zip2 = async (file: string): Promise<number[]> => {
                     zip.close(); // not autoClose
                     process.nextTick(() => {
                         if (!crcs) {
+                            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                             reject(crcs);
                             return;
                         }
@@ -324,6 +332,7 @@ const zip3 = async (file: string): Promise<number[]> => {
             zip = await unzipper.Open.file(file);
         } catch (err) {
             console.log(err);
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             reject(err);
             return;
         }
@@ -390,6 +399,7 @@ const zip3 = async (file: string): Promise<number[]> => {
                 } catch (err) {
                     console.log("err2");
                     console.log(err);
+                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                     reject(err);
                     return;
                 }

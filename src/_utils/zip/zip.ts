@@ -38,6 +38,7 @@ export abstract class Zip implements IZip {
             streamAndLength = await this.entryStreamPromise(entryPath);
         } catch (err) {
             console.log(err);
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             return Promise.reject(err);
         }
 

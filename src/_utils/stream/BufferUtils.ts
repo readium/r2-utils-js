@@ -92,6 +92,7 @@ export async function streamToBufferPromise_READABLE(readStream: NodeJS.Readable
         const handleError = (e: any) => {
             console.log(e);
             cleanup();
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             reject(e);
         };
         readStream.on("error", handleError);
@@ -145,6 +146,7 @@ export async function streamToBufferPromise(readStream: NodeJS.ReadableStream): 
         const handleError = (e: any) => {
             console.log(e);
             cleanup();
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             reject(e);
         };
         readStream.on("error", handleError);

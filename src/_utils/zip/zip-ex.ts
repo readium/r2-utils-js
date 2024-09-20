@@ -80,6 +80,7 @@ export class ZipExploded extends Zip {
         // debug(`entryStreamPromise: ${entryPath}`);
 
         if (!this.hasEntries() || !this.hasEntry(entryPath)) {
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             return Promise.reject("no such path in zip exploded: " + entryPath);
         }
 

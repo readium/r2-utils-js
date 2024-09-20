@@ -31,6 +31,7 @@ export class Zip3 extends Zip {
                 zip = await unzipper.Open.file(filePath);
             } catch (err) {
                 debug(err);
+                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 reject(err);
                 return;
             }
@@ -54,6 +55,7 @@ export class Zip3 extends Zip {
                     });
             } catch (err) {
                 debug(err);
+                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 reject(err);
                 return;
             }
@@ -108,6 +110,7 @@ export class Zip3 extends Zip {
         // debug(`entryStreamPromise: ${entryPath}`);
 
         if (!this.hasEntries() || !this.hasEntry(entryPath)) {
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             return Promise.reject("no such path in zip: " + entryPath);
         }
 

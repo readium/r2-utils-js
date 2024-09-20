@@ -7,7 +7,7 @@
 
 import * as debug_ from "debug";
 import * as request from "request";
-import * as requestPromise from "request-promise-native";
+// import * as requestPromise from "request-promise-native";
 import * as yauzl from "yauzl";
 
 import { isHTTP } from "../http/UrlUtils";
@@ -33,6 +33,7 @@ export class Zip2 extends Zip {
                 if (err || !zip) {
                     debug("yauzl init ERROR");
                     debug(err);
+                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                     reject(err);
                     return;
                 }
@@ -41,6 +42,7 @@ export class Zip2 extends Zip {
                 zip.on("error", (erro) => {
                     debug("yauzl ERROR");
                     debug(erro);
+                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                     reject(erro);
                 });
 
@@ -70,15 +72,16 @@ export class Zip2 extends Zip {
 
     private static async loadPromiseHTTP(filePath: string): Promise<IZip> {
 
-        // No response streaming! :(
-        // https://github.com/request/request-promise/issues/90
-        const needsStreamingResponse = true;
+        // // No response streaming! :(
+        // // https://github.com/request/request-promise/issues/90
+        // const needsStreamingResponse = true;
 
         return new Promise<IZip>(async (resolve, reject) => {
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const failure = (err: any) => {
                 debug(err);
+                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 reject(err);
             };
 
@@ -93,6 +96,7 @@ export class Zip2 extends Zip {
 
                 // if (!res.headers["content-type"]
                 //     || res.headers["content-type"] !== "application/epub+zip") {
+                //     // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 //     reject("content-type not supported!");
                 //     return;
                 // }
@@ -101,6 +105,7 @@ export class Zip2 extends Zip {
                 // then fallback on download, but interrupt (req.abort())
                 // if response payload reaches the max limit
                 if (!res.headers["content-length"]) {
+                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                     reject("content-length not supported!");
                     return;
                 }
@@ -114,6 +119,7 @@ export class Zip2 extends Zip {
                     || res.headers["accept-ranges"].indexOf("bytes") < 0) {
 
                     if (httpZipByteLength > (2 * 1024 * 1024)) {
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject("accept-ranges not supported, file too big to download: " + httpZipByteLength);
                         return;
                     }
@@ -123,6 +129,7 @@ export class Zip2 extends Zip {
                     const failure_ = (err: any) => {
 
                         debug(err);
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject(err);
                     };
 
@@ -139,6 +146,7 @@ export class Zip2 extends Zip {
                             buffer = await streamToBufferPromise(ress);
                         } catch (err) {
                             debug(err);
+                            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                             reject(err);
                             return;
                         }
@@ -149,6 +157,7 @@ export class Zip2 extends Zip {
                                 if (err || !zip) {
                                     debug("yauzl init ERROR");
                                     debug(err);
+                                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                                     reject(err);
                                     return;
                                 }
@@ -157,6 +166,7 @@ export class Zip2 extends Zip {
                                 zip.on("error", (erro) => {
                                     debug("yauzl ERROR");
                                     debug(erro);
+                                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                                     reject(erro);
                                 });
 
@@ -182,7 +192,7 @@ export class Zip2 extends Zip {
                             });
                     };
 
-                    if (needsStreamingResponse) {
+                    // if (needsStreamingResponse) {
                         request.get({
                             headers: {},
                             method: "GET",
@@ -198,23 +208,23 @@ export class Zip2 extends Zip {
                                 }
                             })
                             .on("error", failure_);
-                    } else {
-                        let ress: requestPromise.FullResponse;
-                        try {
-                            // tslint:disable-next-line:await-promise no-floating-promises
-                            ress = await requestPromise({
-                                headers: {},
-                                method: "GET",
-                                resolveWithFullResponse: true,
-                                uri: filePath,
-                            });
-                        } catch (err) {
-                            failure_(err);
-                            return;
-                        }
+                    // } else {
+                    //     let ress: requestPromise.FullResponse;
+                    //     try {
+                    //         // tslint:disable-next-line:await-promise no-floating-promises
+                    //         ress = await requestPromise({
+                    //             headers: {},
+                    //             method: "GET",
+                    //             resolveWithFullResponse: true,
+                    //             uri: filePath,
+                    //         });
+                    //     } catch (err) {
+                    //         failure_(err);
+                    //         return;
+                    //     }
 
-                        await success_(ress);
-                    }
+                    //     await success_(ress);
+                    // }
 
                     return;
                 }
@@ -226,6 +236,7 @@ export class Zip2 extends Zip {
                         if (err || !zip) {
                             debug("yauzl init ERROR");
                             debug(err);
+                            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                             reject(err);
                             return;
                         }
@@ -237,6 +248,7 @@ export class Zip2 extends Zip {
                         zip.on("error", (erro: any) => {
                             debug("yauzl ERROR");
                             debug(erro);
+                            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                             reject(erro);
                         });
 
@@ -263,7 +275,7 @@ export class Zip2 extends Zip {
                     });
             };
 
-            if (needsStreamingResponse) {
+            // if (needsStreamingResponse) {
                 request.get({
                     headers: {},
                     method: "HEAD",
@@ -279,25 +291,25 @@ export class Zip2 extends Zip {
                         }
                     })
                     .on("error", failure);
-            } else {
-                // TODO: instead of a HEAD request, if not supported then
-                // GET with immediate req.abort() in the response callback
-                let res: requestPromise.FullResponse;
-                try {
-                    // tslint:disable-next-line:await-promise no-floating-promises
-                    res = await requestPromise({
-                        headers: {},
-                        method: "HEAD",
-                        resolveWithFullResponse: true,
-                        uri: filePath,
-                    });
-                } catch (err) {
-                    failure(err);
-                    return;
-                }
+            // } else {
+            //     // TODO: instead of a HEAD request, if not supported then
+            //     // GET with immediate req.abort() in the response callback
+            //     let res: requestPromise.FullResponse;
+            //     try {
+            //         // tslint:disable-next-line:await-promise no-floating-promises
+            //         res = await requestPromise({
+            //             headers: {},
+            //             method: "HEAD",
+            //             resolveWithFullResponse: true,
+            //             uri: filePath,
+            //         });
+            //     } catch (err) {
+            //         failure(err);
+            //         return;
+            //     }
 
-                await success(res);
-            }
+            //     await success(res);
+            // }
         });
     }
 
@@ -343,6 +355,7 @@ export class Zip2 extends Zip {
         // debug(`entryStreamPromise: ${entryPath}`);
 
         if (!this.hasEntries() || !this.hasEntry(entryPath)) {
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             return Promise.reject("no such path in zip: " + entryPath);
         }
 
@@ -355,6 +368,7 @@ export class Zip2 extends Zip {
                 if (err) {
                     debug("yauzl openReadStream ERROR");
                     debug(err);
+                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                     reject(err);
                     return;
                 }

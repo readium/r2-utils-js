@@ -7,7 +7,7 @@
 
 import * as debug_ from "debug";
 import * as request from "request";
-import * as requestPromise from "request-promise-native";
+// import * as requestPromise from "request-promise-native";
 import { PassThrough } from "stream";
 import * as yauzl from "yauzl";
 
@@ -115,10 +115,10 @@ export class HttpZipReader extends yauzl.RandomAccessReader {
             }
         };
 
-        // No response streaming! :(
-        // https://github.com/request/request-promise/issues/90
-        const needsStreamingResponse = true;
-        if (needsStreamingResponse) {
+        // // No response streaming! :(
+        // // https://github.com/request/request-promise/issues/90
+        // const needsStreamingResponse = true;
+        // if (needsStreamingResponse) {
             request.get({
                 headers: { Range: `bytes=${range}` },
                 method: "GET",
@@ -134,32 +134,32 @@ export class HttpZipReader extends yauzl.RandomAccessReader {
                     }
                 })
                 .on("error", failure);
-        } else {
-            // tslint:disable-next-line:no-floating-promises
-            (async () => {
-                let res: requestPromise.FullResponse;
-                try {
-                    // tslint:disable-next-line:await-promise no-floating-promises
-                    res = await requestPromise({
-                        headers: { Range: `bytes=${range}` },
-                        method: "GET",
-                        resolveWithFullResponse: true,
-                        uri: this.url,
-                    });
-                } catch (err) {
-                    failure(err);
-                    return;
-                }
+        // } else {
+        //     // tslint:disable-next-line:no-floating-promises
+        //     (async () => {
+        //         let res: requestPromise.FullResponse;
+        //         try {
+        //             // tslint:disable-next-line:await-promise no-floating-promises
+        //             res = await requestPromise({
+        //                 headers: { Range: `bytes=${range}` },
+        //                 method: "GET",
+        //                 resolveWithFullResponse: true,
+        //                 uri: this.url,
+        //             });
+        //         } catch (err) {
+        //             failure(err);
+        //             return;
+        //         }
 
-                await success(res);
-            })()
-                // .then(() => {
-                //     debug("done");
-                // }).catch((err) => {
-                //     debug(err);
-                // })
-                ;
-        }
+        //         await success(res);
+        //     })()
+        //         // .then(() => {
+        //         //     debug("done");
+        //         // }).catch((err) => {
+        //         //     debug(err);
+        //         // })
+        //         ;
+        // }
 
         return stream;
     }

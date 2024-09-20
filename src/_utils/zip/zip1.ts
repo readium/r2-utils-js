@@ -6,6 +6,7 @@
 // ==LICENSE-END==
 
 import * as debug_ from "debug";
+// eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-require-imports
 import StreamZip = require("node-stream-zip");
 
 import { IStreamAndLength, IZip, Zip } from "./zip";
@@ -30,6 +31,7 @@ export class Zip1 extends Zip {
                 debug("--ZIP error: " + filePath);
                 debug(err);
 
+                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 reject(err);
             });
 
@@ -96,6 +98,7 @@ export class Zip1 extends Zip {
         // debug(`entryStreamPromise: ${entryPath}`);
 
         if (!this.hasEntries() || !this.hasEntry(entryPath)) {
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             return Promise.reject("no such path in zip: " + entryPath);
         }
 
@@ -113,6 +116,7 @@ export class Zip1 extends Zip {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             this.zip.stream(entryPath, (err: any, stream: NodeJS.ReadableStream) => {
                 if (err) {
+                    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                     reject(err);
                     return;
                 }

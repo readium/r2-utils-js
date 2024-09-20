@@ -7,7 +7,7 @@
 
 import * as debug_ from "debug";
 import * as request from "request";
-import * as requestPromise from "request-promise-native";
+// import * as requestPromise from "request-promise-native";
 import { PassThrough } from "stream";
 import { URL } from "url";
 
@@ -84,11 +84,10 @@ export class ZipExplodedHTTP extends Zip {
                 topresolve(true);
             };
 
-            // No response streaming! :(
-            // https://github.com/request/request-promise/issues/90
-            const needsStreamingResponse = true;
-
-            if (needsStreamingResponse) {
+            // // No response streaming! :(
+            // // https://github.com/request/request-promise/issues/90
+            // const needsStreamingResponse = true;
+            // if (needsStreamingResponse) {
                 const promise = new Promise<void>((resolve, reject) => {
                     request.get({
                         headers: {},
@@ -108,6 +107,7 @@ export class ZipExplodedHTTP extends Zip {
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .on("error", async (err: any) => {
                             await failure(err);
+                            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                             reject();
                         });
                 });
@@ -116,27 +116,28 @@ export class ZipExplodedHTTP extends Zip {
                 } catch (_err) {
                     // ignore
                 }
-            } else {
-                let response: requestPromise.FullResponse;
-                try {
-                    // tslint:disable-next-line:await-promise no-floating-promises
-                    response = await requestPromise({
-                        headers: {},
-                        method: "HEAD",
-                        resolveWithFullResponse: true,
-                        uri: urlStrEntry,
-                    });
-                    await success(response);
-                } catch (err) {
-                    await failure(err);
-                }
-            }
+            // } else {
+            //     let response: requestPromise.FullResponse;
+            //     try {
+            //         // tslint:disable-next-line:await-promise no-floating-promises
+            //         response = await requestPromise({
+            //             headers: {},
+            //             method: "HEAD",
+            //             resolveWithFullResponse: true,
+            //             uri: urlStrEntry,
+            //         });
+            //         await success(response);
+            //     } catch (err) {
+            //         await failure(err);
+            //     }
+            // }
         });
     }
 
     public async getEntries(): Promise<string[]> {
 
         return new Promise<string[]>(async (_resolve, reject) => {
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
             reject("Not implemented.");
         });
     }
@@ -146,6 +147,7 @@ export class ZipExplodedHTTP extends Zip {
         debug(`entryStreamPromise: ${entryPath}`);
 
         // if (!this.hasEntries() || !this.hasEntry(entryPath)) {
+        //     // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
         //     return Promise.reject("no such path in zip exploded: " + entryPath);
         // }
 
@@ -160,6 +162,7 @@ export class ZipExplodedHTTP extends Zip {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const failure = async (err: any) => {
                 debug(err);
+                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 topreject(err);
             };
 
@@ -212,11 +215,10 @@ export class ZipExplodedHTTP extends Zip {
                 // }
             };
 
-            // No response streaming! :(
-            // https://github.com/request/request-promise/issues/90
-            const needsStreamingResponse = true;
-
-            if (needsStreamingResponse) {
+            // // No response streaming! :(
+            // // https://github.com/request/request-promise/issues/90
+            // const needsStreamingResponse = true;
+            // if (needsStreamingResponse) {
                 const promise = new Promise<void>((resolve, reject) => {
                     request.get({
                         headers: {},
@@ -236,6 +238,7 @@ export class ZipExplodedHTTP extends Zip {
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .on("error", async (err: any) => {
                             await failure(err);
+                            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                             reject();
                         });
                 });
@@ -244,21 +247,21 @@ export class ZipExplodedHTTP extends Zip {
                 } catch (_err) {
                     // ignore
                 }
-            } else {
-                let response: requestPromise.FullResponse;
-                try {
-                    // tslint:disable-next-line:await-promise no-floating-promises
-                    response = await requestPromise({
-                        headers: {},
-                        method: "GET",
-                        resolveWithFullResponse: true,
-                        uri: urlStrEntry,
-                    });
-                    await success(response);
-                } catch (err) {
-                    await failure(err);
-                }
-            }
+            // } else {
+            //     let response: requestPromise.FullResponse;
+            //     try {
+            //         // tslint:disable-next-line:await-promise no-floating-promises
+            //         response = await requestPromise({
+            //             headers: {},
+            //             method: "GET",
+            //             resolveWithFullResponse: true,
+            //             uri: urlStrEntry,
+            //         });
+            //         await success(response);
+            //     } catch (err) {
+            //         await failure(err);
+            //     }
+            // }
         });
     }
 }
