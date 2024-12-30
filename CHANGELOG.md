@@ -1,10 +1,29 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.39...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.40...develop
 
 Changes:
 * TODO
+
+# 1.0.40
+
+> Build environment: NodeJS `22.11.0`, NPM `11.0.0`
+
+Changes:
+* NPM package updates
+* Added UTF8 BOM removal util function
+* Support for Flox/Nix (dev)
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.40/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.40/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.40
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.39...v1.0.40
 
 # 1.0.39
 
