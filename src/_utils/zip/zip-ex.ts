@@ -16,6 +16,42 @@ import { IStreamAndLength, IZip, Zip } from "./zip";
 
 const debug = debug_("r2:utils#zip/zip-ex");
 
+// const files: string[] = await filehound.create()
+//     // .discard("node_modules")
+//     // .depth(5)
+//     .paths(this.dirPath)
+//     // .ext([".epub", ".epub3", ".cbz"])
+//     .find();
+const scanDir = (rootDir: string, subRootDir: string): string[] => {
+
+    const dirPathNormalized = fs.realpathSync(rootDir);
+
+    const files = fs.readdirSync(subRootDir, { withFileTypes: true }).
+        filter((f) => f.isFile()).map((f) => path.join(subRootDir, f.name));
+
+    let adjustedFiles = files.map((file) => {
+        const filePathNormalized = fs.realpathSync(file);
+
+        let relativeFilePath = filePathNormalized.replace(dirPathNormalized, "");
+        // debug(relativeFilePath);
+
+        if (relativeFilePath.indexOf("/") === 0 || relativeFilePath.indexOf("\\") === 0) {
+            relativeFilePath = relativeFilePath.substr(1);
+        }
+
+        return relativeFilePath;
+    });
+
+    const folders = fs.readdirSync(subRootDir, { withFileTypes: true }).
+        filter((f) => f.isDirectory()).map((f) => path.join(subRootDir, f.name));
+    for (const folder of folders) {
+        const subFiles = scanDir(rootDir, folder);
+        adjustedFiles = adjustedFiles.concat(subFiles);
+    }
+
+    return adjustedFiles;
+};
+
 export class ZipExploded extends Zip {
 
     public static async loadPromise(dirPath: string): Promise<IZip> {
@@ -47,31 +83,9 @@ export class ZipExploded extends Zip {
 
         return new Promise<string[]>(async (resolve, _reject) => {
 
-            const dirPathNormalized = fs.realpathSync(this.dirPath);
-
-            // const files: string[] = await filehound.create()
-            //     // .discard("node_modules")
-            //     // .depth(5)
-            //     .paths(this.dirPath)
-            //     // .ext([".epub", ".epub3", ".cbz"])
-            //     .find();
-            const files = fs.readdirSync(this.dirPath, { withFileTypes: true }).
-                filter((f) => f.isFile()).map((f) => path.join(this.dirPath, f.name));
-
-            const adjustedFiles = files.map((file) => {
-                const filePathNormalized = fs.realpathSync(file);
-
-                let relativeFilePath = filePathNormalized.replace(dirPathNormalized, "");
-                // debug(relativeFilePath);
-
-                if (relativeFilePath.indexOf("/") === 0 || relativeFilePath.indexOf("\\") === 0) {
-                    relativeFilePath = relativeFilePath.substr(1);
-                }
-
-                return relativeFilePath;
-            });
-
-            resolve(adjustedFiles);
+            const deepFiles = scanDir(this.dirPath, this.dirPath);
+            // debug(deepFiles);
+            resolve(deepFiles);
         });
     }
 
