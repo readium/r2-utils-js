@@ -1,10 +1,27 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-utils-js/compare/v1.0.42...develop
+* https://github.com/readium/r2-utils-js/compare/v1.0.43...develop
 
 Changes:
 * TODO
+
+# 1.0.43
+
+> Build environment: NodeJS `22.14.0`, NPM `11.4.2`
+
+Changes:
+* NPM package updates
+
+Git revision info:
+* https://unpkg.com/r2-utils-js@1.0.43/dist/gitrev.json
+* https://github.com/edrlab/r2-utils-js-dist/blob/v1.0.43/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-utils-js/commits/v1.0.43
+
+Git diff:
+* https://github.com/readium/r2-utils-js/compare/v1.0.42...v1.0.43
 
 # 1.0.42
 
